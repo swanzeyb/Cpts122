@@ -50,7 +50,6 @@ int main(void) {
 
 			// While we're not at the end of the line
 			while (token != NULL || colIndex < 8) {
-				//printf("%s\n", token);
 
 				// Fill in missing data
 				switch (colIndex) {
@@ -58,7 +57,7 @@ int main(void) {
 						strcpy(point->patient, token);
 						break;
 					case MINUTE:
-						strcpy(point->minute, token);
+						strcpy(point->minute, token == NULL ? "" : token);
 						break;
 					case CALORIES:
 						point->calories = token == NULL ? 0 : atoi(token);
@@ -85,9 +84,14 @@ int main(void) {
 				colIndex += 1;
 			}
 
-			// Add the new point to the collection
-			logs[logIndex] = point;
-			logIndex += 1;
+			if (logIndex > 0) {
+				// Only add the point if it's not a duplicate
+				if (logs[logIndex - 1]->minute != point->minute) {
+					// Add the new point to the collection
+					logs[logIndex] = point;
+					logIndex += 1;
+				}
+			}
 		}
 
 		rowIndex += 1;
