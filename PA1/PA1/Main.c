@@ -25,7 +25,7 @@ int main(void) {
 	int rowIndex = 0;
 
 	// All of the found records
-	Fitbit* logs[1440];
+	Fitbit* logs[ROWS_LIMIT];
 
 	// Log index to keep track of record position
 	int logIndex = 0;
@@ -95,7 +95,15 @@ int main(void) {
 		}
 
 		rowIndex += 1;
-	} while (!feof(contents) && logIndex < 1440);
+	} while (!feof(contents) && logIndex < ROWS_LIMIT);
+
+	double totalCalories = totalCaloriesBurned(logs);
+	double totalDistance = totalDistanceWalked(logs);
+	unsigned int totalFloors = totalFloorsClimbed(logs);
+	unsigned int totalSteps = totalFloorsClimbed(logs);
+	unsigned int avgHeartRate = averageHeartRate(logs);
+	unsigned int maxSteps = maxStepsInMinute(logs);
+	Range poorSleepRange = longestPoorSleepRange(logs);
 
 	return 0;
 }
