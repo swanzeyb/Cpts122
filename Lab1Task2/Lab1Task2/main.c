@@ -1,6 +1,5 @@
 #include "methods.h";
-#include <stdio.h>;
-#include <string.h>;
+
 
 /*
 	Tokenize a String
@@ -10,9 +9,9 @@
 
 int main() {
 
-	char hiMom[] = "RedRu";
-	reverseStrRecursive(hiMom, 0, strlen(hiMom));
-	printf("Result: %s", hiMom);
+	char dest[] = "                ";
+	myStrncpy(dest, "Hi mom!", 10);
+	printf("%s", dest);
 
 	return 0;
 }
