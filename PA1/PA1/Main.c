@@ -27,6 +27,9 @@ int main(void) {
 	// All of the found records
 	Fitbit* logs[1440];
 
+	// Log index to keep track of record position
+	int logIndex = 0;
+
 	do {
 		// Get each line of the CSV file
 		fgets(line, CHAR_LIMIT, contents);
@@ -40,41 +43,40 @@ int main(void) {
 		// Reset the col index because new line
 		colIndex = 0;
 
-		// Ignore meta info rows
-		if (rowIndex > 1) {
+		// Ignore meta info rows and wrong patients
+		if (rowIndex > 1 && strstr(line, TARGET) != NULL) {
 			// Start of a new data point entry
 			Fitbit* point = (Fitbit*)malloc(sizeof(Fitbit));
 
 			// While we're not at the end of the line
 			while (token != NULL || colIndex < 8) {
-				printf("%s\n", token);
+				//printf("%s\n", token);
 
 				// Fill in missing data
 				switch (colIndex) {
 					case PATIENT:
-						if (strstr(token, TARGET) == NULL) break;
 						strcpy(point->patient, token);
 						break;
 					case MINUTE:
 						strcpy(point->minute, token);
 						break;
 					case CALORIES:
-						point->calories = atoi(token);
+						point->calories = token == NULL ? 0 : atoi(token);
 						break;
 					case DISTANCE:
-						point->distance = atoi(token);
+						point->distance = token == NULL ? 0 : atoi(token);
 						break;
 					case FLOORS:
-						point->floors = strtoul(token);
+						point->floors = token == NULL ? 0.0 : strtoul(token, NULL, 10);
 						break;
 					case HEART_RATE:
-						point->heartRate = strtoul(token);
+						point->heartRate = token == NULL ? 0.0 : strtoul(token, NULL, 10);
 						break;
 					case STEPS:
-						point->steps = strtoul(token);
+						point->steps = token == NULL ? 0.0 : strtoul(token, NULL, 10);
 						break;
 					case SLEEP_LEVEL:
-						point->sleepLevel = atoi(token);
+						point->sleepLevel = token == NULL ? 0 : atoi(token);
 						break;
 				}
 
@@ -84,15 +86,12 @@ int main(void) {
 			}
 
 			// Add the new point to the collection
-			logs[rowIndex - 2] = point;
+			logs[logIndex] = point;
+			logIndex += 1;
 		}
 
 		rowIndex += 1;
-	} while (!feof(contents) && rowIndex < 1443);
-
-	for (int i = 0; i < 1440; i++) {
-		printf("%s\n", logs[i]->minute);
-	}
+	} while (!feof(contents) && logIndex < 1440);
 
 	return 0;
 }
