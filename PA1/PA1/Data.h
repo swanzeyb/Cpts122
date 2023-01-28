@@ -39,22 +39,22 @@ typedef enum {
 } Members;
 
 // You must compute the total calories burned
-double totalCaloriesBurned(Fitbit* logs[]);
+double totalCaloriesBurned(Fitbit* logs[ROWS_LIMIT]);
 
 // distance walked in miles,
-double totalDistanceWalked(Fitbit* logs[]);
+double totalDistanceWalked(Fitbit* logs[ROWS_LIMIT]);
 
 // floors walked
-unsigned int totalFloorsClimbed(Fitbit* logs[]);
+unsigned int totalFloorsClimbed(Fitbit* logs[ROWS_LIMIT]);
 
 // and steps taken
-unsigned int totalStepsTaken(Fitbit* logs[]);
+unsigned int totalStepsTaken(Fitbit* logs[ROWS_LIMIT]);
 
 // You must compute average heartrate over the 24 hour period
-unsigned int averageHeartRate(Fitbit* logs[]);
+double averageHeartRate(Fitbit* logs[ROWS_LIMIT]);
 
 // You must report the max steps taken in one minute over the 24 hour
-unsigned int maxStepsInMinute(Fitbit* logs[]);
+unsigned int maxStepsInMinute(Fitbit* logs[ROWS_LIMIT]);
 
 // You must report the longest consecutive range of poor sleep (report the starting and ending minute of range)
 typedef struct {
@@ -64,4 +64,17 @@ typedef struct {
 	unsigned int quality;
 } Range;
 
-Range longestPoorSleepRange(Fitbit* logs[]);
+Range longestPoorSleepRange(Fitbit* logs[ROWS_LIMIT]);
+
+// Print the results csv file
+typedef struct {
+	double totalCalories;
+	double totalDistance;
+	unsigned int totalFloors;
+	unsigned int totalSteps;
+	double avgHeartRate;
+	unsigned int maxSteps;
+	Range poorSleepRange;
+} Results;
+
+void writeResultsCSV(Results results, Fitbit* logs[ROWS_LIMIT]);

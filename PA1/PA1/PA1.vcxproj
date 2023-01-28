@@ -183,6 +183,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="FitbitData.csv" />
+    <None Include="Results.csv" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Data.h" />

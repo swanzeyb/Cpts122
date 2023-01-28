@@ -60,10 +60,10 @@ int main(void) {
 						strcpy(point->minute, token == NULL ? "" : token);
 						break;
 					case CALORIES:
-						point->calories = token == NULL ? 0 : atoi(token);
+						point->calories = token == NULL ? 0 : atof(token);
 						break;
 					case DISTANCE:
-						point->distance = token == NULL ? 0 : atoi(token);
+						point->distance = token == NULL ? 0 : atof(token);
 						break;
 					case FLOORS:
 						point->floors = token == NULL ? 0.0 : strtoul(token, NULL, 10);
@@ -84,7 +84,7 @@ int main(void) {
 				colIndex += 1;
 			}
 
-			if (logIndex > 0) {
+			if (logIndex > 1) {
 				// Only add the point if it's not a duplicate
 				if (logs[logIndex - 1]->minute != point->minute) {
 					// Add the new point to the collection
@@ -92,18 +92,36 @@ int main(void) {
 					logIndex += 1;
 				}
 			}
+			else {
+				logs[logIndex] = point;
+				logIndex += 1;
+			}
 		}
 
 		rowIndex += 1;
 	} while (!feof(contents) && logIndex < ROWS_LIMIT);
 
+	fclose(contents);
+
 	double totalCalories = totalCaloriesBurned(logs);
 	double totalDistance = totalDistanceWalked(logs);
 	unsigned int totalFloors = totalFloorsClimbed(logs);
-	unsigned int totalSteps = totalFloorsClimbed(logs);
-	unsigned int avgHeartRate = averageHeartRate(logs);
+	unsigned int totalSteps = totalStepsTaken(logs);
+	double avgHeartRate = averageHeartRate(logs);
 	unsigned int maxSteps = maxStepsInMinute(logs);
 	Range poorSleepRange = longestPoorSleepRange(logs);
+
+	Results results = {
+		totalCalories,
+		totalDistance,
+		totalFloors,
+		totalSteps,
+		avgHeartRate,
+		maxSteps,
+		poorSleepRange
+	};
+
+	writeResultsCSV(results, logs);
 
 	return 0;
 }
