@@ -56,20 +56,3 @@ bool insertAtFront(Node** listHead, Record data) {
 		return true;
 	}
 }
-
-void printList(Node** listHead) {
-	Node* next = *listHead;
-	do {
-		printf("%s %s %s %s %d %d %d %d\n",
-			next->data.artist,
-			next->data.albumTitle,
-			next->data.songTitle,
-			next->data.genre,
-			next->data.songLength.minutes,
-			next->data.songLength.seconds,
-			next->data.timesPlayed,
-			next->data.rating
-		);
-		next = next->next;
-	} while (next != NULL);
-}

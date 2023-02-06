@@ -6,6 +6,7 @@
 #include "List.h"
 
 #define CHAR_LIMIT 100
+#define RESULTS_LIMIT 10
 
 typedef enum {
 	ARTIST = 1,
@@ -17,16 +18,18 @@ typedef enum {
 	RATING = 7,
 } Column;
 
-void load(Node** listHead);
+char GetInput();
 
-//void store();
+void Load(Node** listHead);
 
-//void display();
+void Store(Node** listHead);
 
-//void edit();
+void Display(Node** listHead);
 
-//void rate();
+void Edit(Node** listHead);
 
-//void play();
+//void Rate();
 
-//void exit();
+//void Play();
+
+//void Exit();

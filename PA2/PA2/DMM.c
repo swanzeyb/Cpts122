@@ -1,14 +1,21 @@
 
 #include "DMM.h"
 
+
+char GetInput() {
+	char input = '\0';
+	scanf("%c", &input);
+	return input;
+}
+
 // I use nullish coalesing in JavaScript, it's bugging me
 // C doesn't have this built in.
-char nullCoalesce(char* payload) {
+char NullCoalesce(char* payload) {
 	return payload == NULL ? '\0' : *payload;
 }
 
 // Strtok causes the load function it lose it's place
-Duration parseDuration(char* token) {
+Duration ParseDuration(char* token) {
 	Duration dur = { 0, 0 };
 
 	char min[CHAR_LIMIT] = "\0";
@@ -24,9 +31,9 @@ Duration parseDuration(char* token) {
 	// So this just copies the numbers manually
 	int offSet = 0;
 	for (int i = 0; i < 2; i++) {
-		sec[i] = nullCoalesce(token + delimPos + i + 1);
+		sec[i] = NullCoalesce(token + delimPos + i + 1);
 		if (*(token + i) == ':') continue;
-		min[i] = nullCoalesce(token + i);
+		min[i] = NullCoalesce(token + i);
 	}
 
 	dur.minutes = atoi(min);
@@ -35,7 +42,7 @@ Duration parseDuration(char* token) {
 	return dur;
 }
 
-void load(Node** listHead) {
+void Load(Node** listHead) {
 	// Load the CSV data file
 	FILE* playList = fopen("musicPlayList.csv", "r");
 
@@ -95,7 +102,7 @@ void load(Node** listHead) {
 					case ALBUM:		strcpy(row.albumTitle, token); break;
 					case SONG:		strcpy(row.songTitle, token); break;
 					case GENRE:		strcpy(row.genre, token); break;
-					case DURATION:  row.songLength = parseDuration(token); break;
+					case DURATION:  row.songLength = ParseDuration(token); break;
 					case PLAYS:		row.timesPlayed = atoi(token);  break;
 					case RATING:	row.rating = atoi(token);  break;
 				}
@@ -111,4 +118,117 @@ void load(Node** listHead) {
 
 	// We're done with the file
 	fclose(playList);
+}
+
+void Store(Node** listHead) {
+	// Init with node found at head
+	Node* curr = (*listHead);
+
+	// Open the file for writing
+	FILE* playList = fopen("musicPlayListt.csv", "w");
+
+	// While the node isn't null
+	while (curr) {
+		Record data = curr->data;
+
+		// Write Artist
+		fprintf(playList, "%s,", data.artist);
+
+		// Write Album Title
+		fprintf(playList, "%s,", data.albumTitle);
+
+		// Write Song Title
+		fprintf(playList, "%s,", data.songTitle);
+
+		// Write Genre
+		fprintf(playList, "%s,", data.genre);
+
+		// Write Duration
+		fprintf(playList, "%d:%d,", data.songLength.minutes, data.songLength.seconds);
+
+		// Write Plays
+		fprintf(playList, "%d,", data.timesPlayed);
+
+		// Write Rating
+		fprintf(playList, "%d,\n", data.rating);
+
+		// To the next node
+		curr = curr->next;
+	}
+
+	// We're done with the file
+	fclose(playList);
+}
+
+void Display(Node** listHead) {
+	Node* next = *listHead;
+	do {
+		printf("%s %s %s %s %d %d %d %d\n",
+			next->data.artist,
+			next->data.albumTitle,
+			next->data.songTitle,
+			next->data.genre,
+			next->data.songLength.minutes,
+			next->data.songLength.seconds,
+			next->data.timesPlayed,
+			next->data.rating
+		);
+		next = next->next;
+	} while (next != NULL);
+}
+
+void Edit(Node** listHead) {
+	char query[CHAR_LIMIT] = "\0";
+
+	printf("Enter an artist to search for: ");
+	scanf("%s", query);
+
+	printf("\nSelect a result to edit");
+
+	// Store the results of our search query
+	Node* results[RESULTS_LIMIT];
+
+	// Find all songs by artist
+	Node* curr = (*listHead);
+
+	// Keep track of results count
+	int count = 0;
+
+	// Search for the query
+	while (curr != NULL) {
+		if (strstr(curr->data.artist, query) != NULL) {
+			// Save the result
+			printf("%s by %s\n");
+			results[count] = curr;
+
+			// Increment results count
+			count += 1;
+		}
+
+		// Go to the next result
+		curr = curr->next;
+	}
+
+	// Show the results menu
+	printf("Select a song to edit\n");
+
+	// Leave if no results
+	curr = results[0];
+	if (curr == NULL) {
+		printf("No results :(");
+		return;
+	}
+
+	// Print each result
+	for (int i = 1; curr != NULL; i++) {
+		printf("%d. %s by %s\n", curr->data.songTitle, curr->data.artist);
+	}
+
+	// Get menu choice
+	int input = atoi(GetInput());
+	curr = results[input - 1];
+
+	// Print results
+	system("cls");
+	printf("Now editing %s\n", curr->data.songTitle);
 }
