@@ -1,0 +1,26 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "shell",
+      "label": "BuildC",
+      "command": "/usr/bin/clang",
+      "args": [
+        "${fileWorkspaceFolder}/${relativeFileDirname}/*.c",
+        "-o",
+        "${fileWorkspaceFolder}/${relativeFileDirname}/a.out",
+        "-g",
+        "-O0"
+      ],
+      "presentation": {
+        "reveal": "silent",
+        "clear": true
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
+    }
+  ]
+}

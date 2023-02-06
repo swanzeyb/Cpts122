@@ -1,0 +1,17 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      // MacOS
+      "name": "Debug (LLDB)",
+      "type": "lldb",
+      "request": "launch",
+      "program": "${fileWorkspaceFolder}/${relativeFileDirname}/a.out",
+      "cwd": "${fileWorkspaceFolder}/${relativeFileDirname}",
+      // Ignore debug output garbage: !Loaded '/, !Warning, !=thread, !=library
+      "env": { "TERM": "xterm" },
+      "terminal": "external",
+      "preLaunchTask": "BuildC",
+    }
+  ]
+}
