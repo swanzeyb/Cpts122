@@ -362,3 +362,37 @@ void Rate(Node** listHead) {
 	PrintRecord(curr);
 	printf("\n");
 }
+
+void WaitTime(unsigned int seconds) {
+	// Get the current time
+	time_t start = time(NULL);
+
+	// Set the end time
+	time_t end = start + seconds;
+
+	// Wait until the time is up
+	while (time(NULL) < end) {
+		// Do nothing
+	}
+}
+
+void Play(Node** listHead) {
+	Node* curr = SelectSong(listHead);
+
+	// Don't continue if there are no results
+	if (curr == NULL) {
+		return;
+	}
+
+	while (curr != NULL) {
+		// Play the song
+		printf("Now playing %s by %s\n", curr->data.songTitle, curr->data.artist);
+		WaitTime(3);
+
+		// Increment the play count
+		curr->data.timesPlayed += 1;
+
+		// Go to the next song
+		curr = curr->next;
+	}
+}

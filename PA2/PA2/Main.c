@@ -41,7 +41,7 @@ int main(void) {
 			case 3: DoMenuItem(Display); break;
 			case 6: DoMenuItem(Edit); break;
 			case 8: DoMenuItem(Rate); break;
-			//case '9': play; break;
+			case 9: DoMenuItem(Play); break;
 			case 11: return 1;
 		}
 	}

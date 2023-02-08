@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <stdbool.h>
+#include <time.h>
 #include "List.h"
 
 #define CHAR_LIMIT 100
@@ -34,6 +35,8 @@ void Edit(Node** listHead);
 
 void Rate(Node** listHead);
 
-//void Play();
+void Play(Node** listHead);
+
+void Insert(Node** listHead);
 
 //void Exit();
