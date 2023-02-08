@@ -1,5 +1,6 @@
 
 #include "DMM.h"
+#include <sys/wait.h>
 
 void ClearScreen() {
 	#ifdef _WIN32
@@ -45,6 +46,30 @@ Duration ParseDuration(char* token) {
 
 bool InRange(int value, int min, int max) {
 	return value >= min && value <= max;
+}
+
+// This method waits for any input, without having to press enter
+char GetOnInput() {
+	// I'm developing on mac, so this just uses the correct calls per system
+  while (1) {
+    #if defined(_WIN64) || defined(_WIN32)
+      char in = _getch();
+    #elif defined(__APPLE__)
+			// Mac is a little different, so I'm using the system calls
+      fflush(stdin);
+      system("/bin/stty raw");
+      char in = getchar();
+      system("/bin/stty cooked");
+    #endif
+    if ((in != '\n') && (in != ' ')) {
+      return in;
+    }
+  }
+}
+
+void WaitForInput() {
+	printf("Press any key to continue...");
+	GetOnInput();
 }
 
 void Load(Node** listHead) {
@@ -297,6 +322,5 @@ void Edit(Node** listHead) {
 	);
 
 	// Wait for user to continue
-	printf("\nPress enter to continue...");
-	scanf("%s", query);
+	WaitForInput();
 }
