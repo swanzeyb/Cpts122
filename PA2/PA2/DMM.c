@@ -1,5 +1,6 @@
 
 #include "DMM.h"
+#include <stdio.h>
 #include <sys/wait.h>
 
 void ClearScreen() {
@@ -191,25 +192,40 @@ void Store(Node** listHead) {
 	fclose(playList);
 }
 
+void PrintRecord(Node* curr) {
+	Record data = curr->data;
+
+	// Write Artist
+	printf("%s,", data.artist);
+
+	// Write Album Title
+	printf("%s,", data.albumTitle);
+
+	// Write Song Title
+	printf("%s,", data.songTitle);
+
+	// Write Genre
+	printf("%s,", data.genre);
+
+	// Write Duration
+	printf("%d:%d,", data.songLength.minutes, data.songLength.seconds);
+
+	// Write Plays
+	printf("%d,", data.timesPlayed);
+
+	// Write Rating
+	printf("%d\n", data.rating);
+}
+
 void Display(Node** listHead) {
 	Node* next = *listHead;
 	do {
-		printf("%s %s %s %s %d %d %d %d\n",
-			next->data.artist,
-			next->data.albumTitle,
-			next->data.songTitle,
-			next->data.genre,
-			next->data.songLength.minutes,
-			next->data.songLength.seconds,
-			next->data.timesPlayed,
-			next->data.rating
-		);
+		PrintRecord(next);
 		next = next->next;
 	} while (next != NULL);
 }
 
-void Edit(Node** listHead) {
-	ClearScreen();
+Node* SelectSong(Node** listHead) {
 	char query[CHAR_LIMIT] = "\0";
 
 	printf("Enter an artist to search for: ");
@@ -241,22 +257,34 @@ void Edit(Node** listHead) {
 		curr = curr->next;
 	}
 
-	// Leave if no results
+	// Stop if no results
 	curr = results[0];
 	if (curr == NULL) {
 		printf("No results :(\n");
-		return;
+		return NULL;
 	}
 
 	// Get menu choice
 	int input = -1;
 	scanf("%d", &input);
 
+	// Get the selection node
 	ClearScreen();
 	curr = results[input - 1];
 
+	return curr;
+}
+
+void Edit(Node** listHead) {
+	Node* curr = SelectSong(listHead);
+
+	// Don't continue if there are no results
+	if (curr == NULL) {
+		return;
+	}
+
 	// Select the value to edit
-	input = -1;
+	int input = -1;
 	while (!InRange(input, 1, 7)) {
 		ClearScreen();
 		// Print results
@@ -310,14 +338,27 @@ void Edit(Node** listHead) {
 
 	// Show the user the new record
 	printf("\nNew record:\n");
-	printf("%s %s %s %s %d %d %d %d\n",
-		curr->data.artist,
-		curr->data.albumTitle,
-		curr->data.songTitle,
-		curr->data.genre,
-		curr->data.songLength.minutes,
-		curr->data.songLength.seconds,
-		curr->data.timesPlayed,
-		curr->data.rating
-	);
+	PrintRecord(curr);
+	printf("\n");
+}
+
+void Rate(Node** listHead) {
+	Node* curr = SelectSong(listHead);
+
+	// Don't continue if there are no results
+	if (curr == NULL) {
+		return;
+	}
+
+	// Get new rating
+	int input = -1;
+	printf("Enter new rating: ");
+	scanf("%d", &input);
+
+	// Update the rating
+	curr->data.rating = input;
+
+	// Show the user the new record
+	PrintRecord(curr);
+	printf("\n");
 }

@@ -32,7 +32,7 @@ void Display(Node** listHead);
 
 void Edit(Node** listHead);
 
-//void Rate();
+void Rate(Node** listHead);
 
 //void Play();
 

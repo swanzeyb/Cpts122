@@ -28,7 +28,8 @@ void PrintMenu() {
 	printf("11. Exit\n");
 }
 
-int main(void) {	
+int main(void) {
+	system("/bin/stty cooked");
 	while (true) {
 		PrintMenu();
 		int input = 0;
@@ -39,7 +40,7 @@ int main(void) {
 			case 2: DoMenuItem(Store); break;
 			case 3: DoMenuItem(Display); break;
 			case 6: DoMenuItem(Edit); break;
-			//case '8': rate; break;
+			case 8: DoMenuItem(Rate); break;
 			//case '9': play; break;
 			case 11: return 1;
 		}
