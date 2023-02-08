@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <assert.h>
+#include <stdbool.h>
 #include "List.h"
 
 #define CHAR_LIMIT 100
@@ -18,7 +19,7 @@ typedef enum {
 	RATING = 7,
 } Column;
 
-char GetInput();
+void ClearScreen();
 
 void Load(Node** listHead);
 

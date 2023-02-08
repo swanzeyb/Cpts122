@@ -1,11 +1,12 @@
 
 #include "DMM.h"
 
-
-char GetInput() {
-	char input = '\0';
-	scanf("%c", &input);
-	return input;
+void ClearScreen() {
+	#ifdef _WIN32
+		system("cls");
+	#else
+		system("clear");
+	#endif
 }
 
 // I use nullish coalesing in JavaScript, it's bugging me
@@ -42,7 +43,12 @@ Duration ParseDuration(char* token) {
 	return dur;
 }
 
+bool InRange(int value, int min, int max) {
+	return value >= min && value <= max;
+}
+
 void Load(Node** listHead) {
+	ClearScreen();
 	// Load the CSV data file
 	FILE* playList = fopen("musicPlayList.csv", "r");
 
@@ -178,15 +184,16 @@ void Display(Node** listHead) {
 }
 
 void Edit(Node** listHead) {
+	ClearScreen();
 	char query[CHAR_LIMIT] = "\0";
 
 	printf("Enter an artist to search for: ");
 	scanf("%s", query);
 
-	printf("\nSelect a result to edit");
+	printf("Select a result to edit:\n");
 
 	// Store the results of our search query
-	Node* results[RESULTS_LIMIT];
+	Node* results[RESULTS_LIMIT] = { NULL };
 
 	// Find all songs by artist
 	Node* curr = (*listHead);
@@ -197,38 +204,99 @@ void Edit(Node** listHead) {
 	// Search for the query
 	while (curr != NULL) {
 		if (strstr(curr->data.artist, query) != NULL) {
-			// Save the result
-			printf("%s by %s\n");
-			results[count] = curr;
-
 			// Increment results count
 			count += 1;
+
+			// Save the result
+			printf("%d. %s by %s\n", count, curr->data.songTitle, curr->data.artist);
+			results[count - 1] = curr;
 		}
 
 		// Go to the next result
 		curr = curr->next;
 	}
 
-	// Show the results menu
-	printf("Select a song to edit\n");
-
 	// Leave if no results
 	curr = results[0];
 	if (curr == NULL) {
-		printf("No results :(");
+		printf("No results :(\n");
 		return;
 	}
 
-	// Print each result
-	for (int i = 1; curr != NULL; i++) {
-		printf("%d. %s by %s\n", curr->data.songTitle, curr->data.artist);
-	}
-
 	// Get menu choice
-	int input = atoi(GetInput());
+	int input = -1;
+	scanf("%d", &input);
+
+	ClearScreen();
 	curr = results[input - 1];
 
-	// Print results
-	system("cls");
-	printf("Now editing %s\n", curr->data.songTitle);
+	// Select the value to edit
+	input = -1;
+	while (!InRange(input, 1, 7)) {
+		ClearScreen();
+		// Print results
+		printf("Now editing %s by %s\n", curr->data.songTitle, curr->data.artist);
+
+		// Values
+		printf("Select a value to edit:\n");
+		printf("1. Artist\n");
+		printf("2. Album Title\n");
+		printf("3. Song Title\n");
+		printf("4. Genre\n");
+		printf("5. Duration\n");
+		printf("6. Plays\n");
+		printf("7. Rating\n");
+
+		// Get input
+		scanf("%d", &input);
+	}
+
+	// Get new values from user
+	switch (input) {
+		case ARTIST:
+			printf("Enter new artist name: ");
+			scanf("%s", curr->data.artist);
+			break;
+		case ALBUM:
+			printf("Enter new album title: ");
+			scanf("%s", curr->data.albumTitle);
+			break;
+		case SONG:
+			printf("Enter new song title: ");
+			scanf("%s", curr->data.songTitle);
+			break;
+		case GENRE:
+			printf("Enter new genre: ");
+			scanf("%s", curr->data.genre);
+			break;
+		case DURATION:
+			printf("Enter new duration (mm:ss): ");
+			scanf("%d:%d", &curr->data.songLength.minutes, &curr->data.songLength.seconds);
+			break;
+		case PLAYS:
+			printf("Enter new play count: ");
+			scanf("%d", &curr->data.timesPlayed);
+			break;
+		case RATING:
+			printf("Enter new rating: ");
+			scanf("%d", &curr->data.rating);
+			break;
+	}
+
+	// Show the user the new record
+	printf("\nNew record:\n");
+	printf("%s %s %s %s %d %d %d %d\n",
+		curr->data.artist,
+		curr->data.albumTitle,
+		curr->data.songTitle,
+		curr->data.genre,
+		curr->data.songLength.minutes,
+		curr->data.songLength.seconds,
+		curr->data.timesPlayed,
+		curr->data.rating
+	);
+
+	// Wait for user to continue
+	printf("\nPress enter to continue...");
+	scanf("%s", query);
 }

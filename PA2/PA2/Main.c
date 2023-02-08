@@ -25,16 +25,17 @@ int main(void) {
 	
 	while (true) {
 		PrintMenu();
-		char input = GetInput();
+		int input = 0;
+		scanf("%d", &input);
 
 		switch (input) {
-			case '1': Load(&listHead); break;
-			case '2': Store(&listHead); break;
-			case '3': Display(&listHead); break;
-			case '6': Edit(&listHead); break;
+			case 1: Load(&listHead); break;
+			case 2: Store(&listHead); break;
+			case 3: Display(&listHead); break;
+			case 6: Edit(&listHead); break;
 			//case '8': rate; break;
 			//case '9': play; break;
-			case '11': return 1;
+			case 11: return 1;
 		}
 	}
 }
