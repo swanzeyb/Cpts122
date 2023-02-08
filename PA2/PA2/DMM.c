@@ -320,7 +320,4 @@ void Edit(Node** listHead) {
 		curr->data.timesPlayed,
 		curr->data.rating
 	);
-
-	// Wait for user to continue
-	WaitForInput();
 }

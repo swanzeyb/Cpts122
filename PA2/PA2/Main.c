@@ -4,6 +4,15 @@
 #include "List.h"
 #include "DMM.h"
 
+static Node* listHead = NULL;
+
+void DoMenuItem(void (*func)(Node**)) {
+	ClearScreen();
+	func(&listHead);
+	WaitForInput();
+	ClearScreen();
+}
+
 void PrintMenu() {
 	printf("Digital Music Manager\n");
 	printf("1.  Load\n");
@@ -19,20 +28,17 @@ void PrintMenu() {
 	printf("11. Exit\n");
 }
 
-int main(void) {
-
-	Node* listHead = NULL;
-	
+int main(void) {	
 	while (true) {
 		PrintMenu();
 		int input = 0;
 		scanf("%d", &input);
 
 		switch (input) {
-			case 1: Load(&listHead); break;
-			case 2: Store(&listHead); break;
-			case 3: Display(&listHead); break;
-			case 6: Edit(&listHead); break;
+			case 1: DoMenuItem(Load); break;
+			case 2: DoMenuItem(Store); break;
+			case 3: DoMenuItem(Display); break;
+			case 6: DoMenuItem(Edit); break;
 			//case '8': rate; break;
 			//case '9': play; break;
 			case 11: return 1;

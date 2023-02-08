@@ -22,6 +22,8 @@ typedef enum {
 
 void ClearScreen();
 
+void WaitForInput();
+
 void Load(Node** listHead);
 
 void Store(Node** listHead);
