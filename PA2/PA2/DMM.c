@@ -223,6 +223,7 @@ void Display(Node** listHead) {
 		PrintRecord(next);
 		next = next->next;
 	} while (next != NULL);
+	printf("\n");
 }
 
 Node* SelectSong(Node** listHead) {
@@ -395,4 +396,134 @@ void Play(Node** listHead) {
 		// Go to the next song
 		curr = curr->next;
 	}
+}
+
+void Insert(Node** listHead) {
+	// Hold the new values
+	Record newRec = initRecord();
+
+	// Ask the user for Artist
+	printf("Enter the artist: ");
+	scanf("%s ", newRec.artist);
+
+	// Ask the user for Album Title
+	printf("Enter the album title: ");
+	scanf("%s ", newRec.albumTitle);
+
+	// Ask the user for Song Title
+	printf("Enter the song title: ");
+	scanf("%s ", newRec.songTitle);
+
+	// Ask the user for Genre
+	printf("Enter the genre: ");
+	scanf("%s ", newRec.genre);
+
+	// Ask the user for Duration
+	printf("Enter the duration (mm:ss): ");
+	scanf("%d:%d", &newRec.songLength.minutes, &newRec.songLength.seconds);
+
+	// Ask the user for Plays
+	printf("Enter the play count: ");
+	scanf("%d", &newRec.timesPlayed);
+
+	// Ask the user for Rating
+	printf("Enter the rating: ");
+	scanf("%d", &newRec.rating);
+
+	// Insert the new record
+	insertAtFront(listHead, newRec);
+}
+
+void Delete(Node **listHead) {
+	// Find a record to delete
+	Node* curr = SelectSong(listHead);
+
+	// Don't continue if there are no results
+	if (curr == NULL) {
+		return;
+	}
+
+	// Delete the record
+	deleteNode(curr);
+}
+
+void StrSort(Node** listHead, char* (*get)(Node*)) {
+	// Bubble sort the linked list
+	for (Node* curr = *listHead; curr != NULL; curr = curr->next) {
+		// For each node in the list, compare it to the next node
+		for (Node* next = curr->next; next != NULL; next = next->next) {
+			if (strcmp(get(curr), get(next)) > 0) {
+				// Swap the data
+				Record temp = curr->data;
+				curr->data = next->data;
+				next->data = temp;
+			}
+		}
+	}
+}
+
+void IntSort(Node** listHead, int (*get)(Node*)) {
+	// Bubble sort the linked list
+	for (Node* curr = *listHead; curr != NULL; curr = curr->next) {
+		// For each node in the list, compare it to the next node
+		for (Node* next = curr->next; next != NULL; next = next->next) {
+			if (get(next) > get(curr)) {
+				// Swap the data
+				Record temp = curr->data;
+				curr->data = next->data;
+				next->data = temp;
+			}
+		}
+	}
+}
+
+char* GetArtist(Node* node) {
+	return node->data.artist;
+}
+
+char* GetAlbumTitle(Node* node) {
+	return node->data.albumTitle;
+}
+
+int GetRating(Node* node) {
+	return node->data.rating;
+}
+
+int GetTimesPlayed(Node* node) {
+	return node->data.timesPlayed;
+}
+
+void Sort(Node** listHead) {
+	int input = -1;
+
+	while (input < 1) {
+		printf("Select how you want to sort:\n");
+		printf("1. Artist\n");
+		printf("2. Album Title\n");
+		printf("3. Rating\n");
+		printf("4. Times Played\n");
+		scanf("%d", &input);
+
+		switch (input) {
+			case 1:
+				StrSort(listHead, GetArtist);
+				break;
+			case 2:
+				StrSort(listHead, GetAlbumTitle);
+				break;
+			case 3:
+				IntSort(listHead, GetRating);
+				break;
+			case 4:
+				IntSort(listHead, GetTimesPlayed);
+				break;
+			default:
+				input = -1;
+		}
+	}
+	// Clean up our menu mess on screen
+	ClearScreen();
+
+	// Print the results of the sort
+	Display(listHead);
 }

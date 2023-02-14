@@ -56,3 +56,15 @@ bool insertAtFront(Node** listHead, Record data) {
 		return true;
 	}
 }
+
+void deleteNode(Node* node) {
+	// Save the node links
+	Node* next = node->next;
+	Node* prev = node->prev;
+
+	// Link the previous node to the next node
+	prev->next = next;
+
+	// Delete the node
+	free(node);
+}

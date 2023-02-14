@@ -34,5 +34,6 @@ Node* makeNode(Record data);
 
 bool insertAtFront(Node** listHead, Record data);
 
-void printList(Node** listHead);
+void deleteNode(Node* node);
 
+void printList(Node** listHead);

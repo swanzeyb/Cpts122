@@ -39,4 +39,8 @@ void Play(Node** listHead);
 
 void Insert(Node** listHead);
 
+void Delete(Node** listHead);
+
+void Sort(Node** listHead);
+
 //void Exit();
