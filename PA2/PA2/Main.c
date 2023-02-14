@@ -3,6 +3,7 @@
 
 #include "List.h"
 #include "DMM.h"
+#include "Test.h"
 
 static Node* listHead = NULL;
 
@@ -31,10 +32,22 @@ void PrintMenu() {
 int main(void) {
 	srand(time(NULL)); // Seed random number generator
 
-	// This is for my Mac shanenigans
+	// This is for my Mac shenanigans
 	#ifndef _WIN32
 		system("/bin/stty cooked");
 	#endif
+
+	printf("Run test cases (y/n)? ");
+	char input = 0;
+	scanf("%c", &input);
+
+	if (input == 'y') {
+		TestInsert();
+		TestDelete();
+		TestShuffle();
+	}
+
+	ClearScreen();
 	
 	while (true) {
 		PrintMenu();
