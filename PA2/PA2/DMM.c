@@ -1,7 +1,6 @@
 
 #include "DMM.h"
 #include <stdio.h>
-#include <sys/wait.h>
 
 // Mac chaos
 void ClearScreen() {
