@@ -29,6 +29,9 @@ void PrintMenu() {
 }
 
 int main(void) {
+	srand(time(NULL)); // Seed random number generator
+
+	// This is for my Mac shanenigans
 	#ifndef _WIN32
 		system("/bin/stty cooked");
 	#endif
@@ -39,16 +42,16 @@ int main(void) {
 		scanf("%d", &input);
 
 		switch (input) {
-			case 1: DoMenuItem(Load); break;
-			case 2: DoMenuItem(Store); break;
-			case 3: DoMenuItem(Display); break;
-			case 4: DoMenuItem(Insert); break;
-			case 5: DoMenuItem(Delete); break;
-			case 6: DoMenuItem(Edit); break;
-			case 7: DoMenuItem(Sort); break;
-			case 8: DoMenuItem(Rate); break;
-			case 9: DoMenuItem(Play); break;
-			// case 10: DoMenuItem(Shuffle); break;
+			case 1:  DoMenuItem(Load); break;
+			case 2:  DoMenuItem(Store); break;
+			case 3:  DoMenuItem(Display); break;
+			case 4:  DoMenuItem(Insert); break;
+			case 5:  DoMenuItem(Delete); break;
+			case 6:  DoMenuItem(Edit); break;
+			case 7:  DoMenuItem(Sort); break;
+			case 8:  DoMenuItem(Rate); break;
+			case 9:  DoMenuItem(Play); break;
+			case 10: DoMenuItem(Shuffle); break;
 			case 11: return 1;
 		}
 	}

@@ -37,3 +37,5 @@ bool insertAtFront(Node** listHead, Record data);
 void deleteNode(Node* node);
 
 void printList(Node** listHead);
+
+int listLength(Node** listHead);

@@ -68,3 +68,15 @@ void deleteNode(Node* node) {
 	// Delete the node
 	free(node);
 }
+
+int listLength(Node **listHead) {
+	int length = 0;
+	Node* curr = (*listHead);
+
+	while (curr != NULL) {
+		length++;
+		curr = curr->next;
+	}
+
+	return length;
+}

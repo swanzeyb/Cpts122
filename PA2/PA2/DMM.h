@@ -10,6 +10,7 @@
 
 #define CHAR_LIMIT 100
 #define RESULTS_LIMIT 10
+#define PLAY_TIME 1
 
 typedef enum {
 	ARTIST = 1,
@@ -43,4 +44,4 @@ void Delete(Node** listHead);
 
 void Sort(Node** listHead);
 
-//void Exit();
+void Shuffle(Node** listHead);

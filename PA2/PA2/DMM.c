@@ -157,7 +157,7 @@ void Store(Node** listHead) {
 	Node* curr = (*listHead);
 
 	// Open the file for writing
-	FILE* playList = fopen("musicPlayListt.csv", "w");
+	FILE* playList = fopen("musicPlayList.csv", "w");
 
 	// While the node isn't null
 	while (curr) {
@@ -388,7 +388,7 @@ void Play(Node** listHead) {
 	while (curr != NULL) {
 		// Play the song
 		printf("Now playing %s by %s\n", curr->data.songTitle, curr->data.artist);
-		WaitTime(3);
+		WaitTime(PLAY_TIME);
 
 		// Increment the play count
 		curr->data.timesPlayed += 1;
@@ -526,4 +526,70 @@ void Sort(Node** listHead) {
 
 	// Print the results of the sort
 	Display(listHead);
+}
+
+void Shuffle(Node **listHead) {
+	// Find length of list
+	int length = listLength(listHead);
+
+	// Keep track of how many times we've played a song
+	int playCount = 0;
+
+	// Where we are in the songs list
+	int index = 0;
+
+	// Current track
+	Node* curr = *listHead;
+
+	// Keep track of songs played so we don't repeat
+	Node** played = malloc(sizeof(Node*) * length);
+
+	while (playCount < length) {
+		// Get a random number between 0 and length
+		int randNum = rand() % length;
+
+		// Get the song at the random index
+		if (randNum == index) {
+			// Don't play the same song twice in a row
+			continue;
+		} else if (index < randNum) {
+			// If the random number is greater than the index, go forward
+			for (int i = index; i < randNum; i++) {
+				curr = curr->next;
+				index += 1;
+			}
+		} else {
+			// If the random number is less than the index, go backward
+			for (int i = index; i > randNum; i--) {
+				curr = curr->prev;
+				index -= 1;
+			}
+		}
+
+		// Check if we've played this song already
+		bool playedAlready = false;
+		for (int i = 0; i < playCount; i++) {
+			if (played[i] == curr) {
+				playedAlready = true;
+				break;
+			}
+		}
+
+		// If we haven't played this song, play it
+		if (!playedAlready) {
+			// Play the song
+			printf("Now playing %s by %s\n", curr->data.songTitle, curr->data.artist);
+			WaitTime(PLAY_TIME);
+
+			// Increment the play count
+			curr->data.timesPlayed += 1;
+
+			// Add the song to the list of played songs
+			played[playCount] = curr;
+			playCount += 1;
+		}
+	}
+
+	// We're done with the list, so free it
+	free(played);
 }
