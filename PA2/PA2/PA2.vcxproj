@@ -185,10 +185,12 @@
     <ClCompile Include="DMM.c" />
     <ClCompile Include="List.c" />
     <ClCompile Include="Main.c" />
+    <ClCompile Include="Test.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DMM.h" />
     <ClInclude Include="List.h" />
+    <ClInclude Include="Test.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="musicPlayList.csv" />
