@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <sys/wait.h>
 
+// Mac chaos
 void ClearScreen() {
 	#ifdef _WIN32
 		system("cls");
@@ -116,7 +117,6 @@ void Load(Node** listHead) {
 
 		// We start with finding the artist name
 		strcpy(row.artist, token);
-		//printf("%s\n", token);
 
 		// While we're still finding columns
 		while (token != NULL) {
@@ -126,8 +126,6 @@ void Load(Node** listHead) {
 			// Continue if we're not at the end of the line
 			if (token != NULL) {
 				index += 1;
-
-				//printf("%s\n", token);
 
 				// Save each found record
 				switch (index) {
@@ -142,7 +140,10 @@ void Load(Node** listHead) {
 		}
 
 		// Now save the found values
-		insertAtFront(listHead, row);
+		if (index == 7) {
+			// If the record is valid, insert it at the front of the list
+			insertAtFront(listHead, row);
+		}
 
 		// And reset the column index
 		index = 1;
@@ -396,6 +397,8 @@ void Play(Node** listHead) {
 		// Go to the next song
 		curr = curr->next;
 	}
+
+	printf("Play Complete!\n\n");
 }
 
 void Insert(Node** listHead) {
@@ -592,4 +595,6 @@ void Shuffle(Node **listHead) {
 
 	// We're done with the list, so free it
 	free(played);
+
+	printf("Shuffle Play Complete!\n\n");
 }
