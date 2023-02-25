@@ -6,7 +6,7 @@
       "name": "Debug (LLDB)",
       "type": "lldb",
       "request": "launch",
-      "program": "${fileWorkspaceFolder}/${relativeFileDirname}/a.out",
+      "program": "${fileWorkspaceFolder}/${relativeFileDirname}/prgrm.out",
       "cwd": "${fileWorkspaceFolder}/${relativeFileDirname}",
       // Ignore debug output garbage: !Loaded '/, !Warning, !=thread, !=library
       "env": { "TERM": "xterm" },

@@ -4,13 +4,14 @@
     {
       "type": "shell",
       "label": "BuildC",
-      "command": "/usr/bin/clang",
+      "command": "/usr/bin/clang++",
       "args": [
-        "${fileWorkspaceFolder}/${relativeFileDirname}/*.c",
-        "-o",
-        "${fileWorkspaceFolder}/${relativeFileDirname}/a.out",
+        "-std=c++17",
+        "-stdlib=libc++",
         "-g",
-        "-O0"
+        "${fileWorkspaceFolder}/${relativeFileDirname}/*.cpp",
+        "-o",
+        "${fileWorkspaceFolder}/${relativeFileDirname}/prgrm.out"
       ],
       "presentation": {
         "reveal": "silent",
