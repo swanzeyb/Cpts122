@@ -1,6 +1,9 @@
-#include <iostream>
+
+#include "App.hpp"
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    FitnessAppWrapper app;
+    app.runApp();
+    return 0;
 }
