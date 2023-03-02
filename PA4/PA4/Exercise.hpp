@@ -1,5 +1,6 @@
 
 #include <iostream>
+#include <fstream>
 #include <string>
 
 using namespace std;
@@ -21,6 +22,6 @@ class ExercisePlan {
     void setName(string newName);
     void setDate(string newDate);
     ExercisePlan &operator=(const ExercisePlan &rhs);
-    friend ostream &operator<<(ostream &lhs, const ExercisePlan &rhs);
-    friend istream &operator>>(istream &lhs, ExercisePlan &rhs);
+    friend ostream& operator<<(ostream &lhs, ExercisePlan &rhs);
+    friend ifstream& operator>>(ifstream &lhs, ExercisePlan &rhs);
 };

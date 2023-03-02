@@ -46,12 +46,12 @@ DietPlan &DietPlan::operator= (const DietPlan &rhs) {
     return *this;
 }
 
-ostream &operator<< (ostream &lhs, const DietPlan &rhs) {
-    lhs << rhs.name << " " << rhs.goal << " " << rhs.date;
+ostream& operator<<(ostream &lhs, DietPlan &plan) {
+    lhs << plan.name << " " << plan.goal << " " << plan.date;
     return lhs;
 }
 
-istream &operator>> (istream &lhs, DietPlan &rhs) {
-    lhs >> rhs.name >> rhs.goal >> rhs.date;
+ifstream& operator>>(ifstream &lhs, DietPlan &plan) {
+    lhs >> plan.name >> plan.goal >> plan.date;
     return lhs;
 }

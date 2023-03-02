@@ -53,12 +53,12 @@ ExercisePlan &ExercisePlan::operator= (const ExercisePlan &rhs) {
     return *this;
 }
 
-ostream &operator<< (ostream &lhs, const ExercisePlan &rhs) {
-    lhs << rhs.name << " " << rhs.goal << " " << rhs.date << endl;
+ostream& operator<<(ostream &lhs, ExercisePlan &plan) {
+    lhs << plan.name << " " << plan.goal << " " << plan.date;
     return lhs;
 }
 
-istream &operator>> (istream &lhs, ExercisePlan &rhs) {
-    lhs >> rhs.name >> rhs.goal >> rhs.date;
+ifstream& operator>>(ifstream &lhs, ExercisePlan &plan) {
+    lhs >> plan.name >> plan.goal >> plan.date;
     return lhs;
 }

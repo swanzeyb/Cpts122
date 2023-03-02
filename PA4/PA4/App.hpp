@@ -1,7 +1,7 @@
 
 #include <iostream>
-#include <string>
 #include <fstream>
+#include <string>
 #include "Exercise.hpp"
 #include "Diet.hpp"
 
@@ -11,6 +11,7 @@ class FitnessAppWrapper {
   public:
     FitnessAppWrapper();
     ~FitnessAppWrapper();
+	void waitForInput();
     void runApp();
     void loadDailyPlan(fstream &fileStream, DietPlan &plan);
     void loadDailyPlan(fstream &fileStream, ExercisePlan &plan);
