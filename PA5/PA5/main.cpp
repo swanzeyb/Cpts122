@@ -1,9 +1,8 @@
 
-#include "App.hpp"
+#include "Test.h"
 
-int main()
+int main(int argc, const char *const argv[])
 {
-    FitnessAppWrapper app;
-    app.runApp();
+    // RunTests(argc, argv);
     return 0;
 }
