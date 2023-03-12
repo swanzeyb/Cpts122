@@ -9,21 +9,32 @@
 #include <iostream>
 
 /**
- * @class Data
+ * @brief An enum to represent the type of lane
+ */
+enum LaneType {
+    EXPRESS,
+    REGULAR
+};
+
+/**
+ * @class Customer
  * @brief Represents customer data
  */
-class Data {
+class Customer {
     public:
-        Data();
-        ~Data();
+        Customer(LaneType laneType);
+        ~Customer();
         int getCustomerNumber();
         void setCustomerNumber(int customerNumber);
         int getServiceTime();
         void setServiceTime(int serviceTime);
         int getTotalTime();
         void setTotalTime(int totalTime);
+        static void resetCount();
     private:
-        static int instanceCount;
+        LaneType laneType;
+        static int expressCount;
+        static int regularCount;
         int customerNumber;
         int serviceTime;
         int totalTime;
@@ -36,14 +47,14 @@ class Data {
  */
 class QueueNode {
     public:
-        QueueNode(Data *pData);
+        QueueNode(Customer *pData);
         ~QueueNode();
-        Data *getData();
-        void setData(Data *pData);
+        Customer *getData();
+        void setData(Customer *pData);
         QueueNode *getNext();
         void setNext(QueueNode *pNext);
     private:
-        Data *pData;
+        Customer *pData;
         QueueNode *pNext;
 };
 
@@ -56,9 +67,11 @@ class Queue {
     public:
         Queue();
         ~Queue();
-        void enqueue(Data *pData);
-        Data *dequeue();
+        void enqueue(Customer *pData);
+        Customer *dequeue();
+        Customer *peek();
         void printQueue();
+        bool isEmpty();
     private:
         QueueNode *pHead;
         QueueNode *pTail;

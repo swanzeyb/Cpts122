@@ -1,5 +1,5 @@
 /**
- * @file Queue.h
+ * @file Queue.cpp
  * @brief A queue implementation for the line simulation
  * @author Benjamin Swanzey (benjamin.swanzey@wsu.edu)
  * @date 2023-03-10
@@ -8,20 +8,29 @@
 #include "Queue.h"
 
 // Initialize the static instance count
-int Data::instanceCount = 0;
+int Customer::expressCount = 0;
+int Customer::regularCount = 0;
 
 /**
- * @brief Construct a new Data object
- * 
- * @return Data
+ * @brief Construct a new Customer object
+ * This represents a customer in the queue.
+ * @return Customer
  */
-Data::Data() {
-    this->customerNumber = Data::instanceCount++;
+Customer::Customer(LaneType laneType) {
+    this->laneType = laneType;
+
+    // Keep track of the number of customers in each lane
+    if (laneType == EXPRESS) {
+        this->customerNumber = Customer::expressCount++;
+    } else {
+        this->customerNumber = Customer::regularCount++;
+    }
+    
     this->serviceTime = 0;
     this->totalTime = 0;
 }
 
-Data::~Data() {
+Customer::~Customer() {
 }
 
 /**
@@ -29,7 +38,7 @@ Data::~Data() {
  * 
  * @return int 
  */
-int Data::getCustomerNumber() {
+int Customer::getCustomerNumber() {
     return this->customerNumber;
 }
 
@@ -38,7 +47,7 @@ int Data::getCustomerNumber() {
  * 
  * @param int customerNumber 
  */
-void Data::setCustomerNumber(int customerNumber) {
+void Customer::setCustomerNumber(int customerNumber) {
     this->customerNumber = customerNumber;
 }
 
@@ -47,7 +56,7 @@ void Data::setCustomerNumber(int customerNumber) {
  * 
  * @return int 
  */
-int Data::getServiceTime() {
+int Customer::getServiceTime() {
     return this->serviceTime;
 }
 
@@ -56,7 +65,7 @@ int Data::getServiceTime() {
  * 
  * @param int serviceTime 
  */
-void Data::setServiceTime(int serviceTime) {
+void Customer::setServiceTime(int serviceTime) {
     this->serviceTime = serviceTime;
 }
 
@@ -65,7 +74,7 @@ void Data::setServiceTime(int serviceTime) {
  * 
  * @return int 
  */
-int Data::getTotalTime() {
+int Customer::getTotalTime() {
     return this->totalTime;
 }
 
@@ -74,7 +83,7 @@ int Data::getTotalTime() {
  * 
  * @param int totalTime 
  */
-void Data::setTotalTime(int totalTime) {
+void Customer::setTotalTime(int totalTime) {
     this->totalTime = totalTime;
 }
 
@@ -85,7 +94,7 @@ void Data::setTotalTime(int totalTime) {
  * @param pData Customer data
  * @return QueueNode
  */
-QueueNode::QueueNode(Data *pData) {
+QueueNode::QueueNode(Customer *pData) {
     this->pData = pData;
     this->pNext = nullptr;
 }
@@ -94,20 +103,20 @@ QueueNode::~QueueNode() {
 }
 
 /**
- * @brief Get the Data object
+ * @brief Get the Customer object
  * 
- * @return Data*
+ * @return Customer*
  */
-Data *QueueNode::getData() {
+Customer *QueueNode::getData() {
     return this->pData;
 }
 
 /**
- * @brief Set the Data object
+ * @brief Set the Customer object
  * 
- * @param Data *pData 
+ * @param Customer *pData 
  */
-void QueueNode::setData(Data *pData) {
+void QueueNode::setData(Customer *pData) {
     this->pData = pData;
 }
 
@@ -148,7 +157,7 @@ Queue::~Queue() {
  * 
  * @param pData Customer data
  */
-void Queue::enqueue(Data *pData) {
+void Queue::enqueue(Customer *pData) {
     // Create a new list node
     QueueNode *pMem = new QueueNode(pData);
 
@@ -166,16 +175,16 @@ void Queue::enqueue(Data *pData) {
 /**
  * @brief Remove the leading customer from the queue
  * 
- * @return Data* Data of removed customer
+ * @return Customer* Customer of removed customer
  */
-Data *Queue::dequeue() {
+Customer *Queue::dequeue() {
     // If the queue is empty, return nullptr
     if (this->pHead == nullptr) {
         return nullptr;
     }
 
     // Otherwise, get the data from the head of the queue
-    Data *pData = this->pHead->getData();
+    Customer *pData = this->pHead->getData();
 
     // Remove the head of the queue
     QueueNode *pTemp = this->pHead;
@@ -186,6 +195,19 @@ Data *Queue::dequeue() {
     if (this->pHead == nullptr) {
         this->pTail = nullptr;
     }
+
+    // Return the data
+    return pData;
+}
+
+Customer *Queue::peek() {
+    // If the queue is empty, return nullptr
+    if (this->pHead == nullptr) {
+        return nullptr;
+    }
+
+    // Otherwise, get the data from the head of the queue
+    Customer *pData = this->pHead->getData();
 
     // Return the data
     return pData;
@@ -203,11 +225,33 @@ void Queue::printQueue() {
         // Otherwise, print the queue
         QueueNode *pCurr = this->pHead;
 
-        std::cout << "The checkout line queue:" << std::endl;
+        // Count the length
+        int length = 0;
         while (pCurr != nullptr) {
-            std::cout << "Customer #" << pCurr->getData()->getCustomerNumber() << std::endl;
+            length++;
+            // std::cout << "Customer #" << pCurr->getData()->getCustomerNumber() << std::endl;
             pCurr = pCurr->getNext();
         }
-        // std::cout << std::endl;
+        std::cout
+            << length
+            << " customers in line."
+            << std::endl;
     }
+}
+
+/**
+ * @brief Reset the number of customers in each lane
+ */
+void Customer::resetCount() {
+    Customer::expressCount = 0;
+    Customer::regularCount = 0;
+}
+
+/**
+ * @brief Check if the queue is empty
+ * 
+ * @return bool is empty
+ */
+bool Queue::isEmpty() {
+    return this->pHead == nullptr;
 }
