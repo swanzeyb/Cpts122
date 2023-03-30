@@ -19,10 +19,15 @@ using std::endl;
 class BST {
 public:
     BST();
+    BST(const BST &other) : root(other.root) {}
+    ~BST() {
+        delete root;
+    }
     void insert(BSTNode* node, char character, string morseCode);
-    void print();
     string search(char character);
+    void print();
 private:
+    string search(BSTNode* node, char character);
     void print(BSTNode* node);
     BSTNode *root;
 };

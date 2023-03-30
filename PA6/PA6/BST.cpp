@@ -21,55 +21,50 @@ BST::BST() {
     file.close();
 }
 
-void BST::insert(BSTNode* node, char character, string morseCode)
-{
-	if (this->root == nullptr) // base case
-	{
-		// we know the tree is empty
-		this->root = new BSTNode(character, morseCode); // mpLeft, mpRight are nullptr
-	}
-	else if (character > node->getCharacter())
-	{
-		// pTree contains the address of the current node that we're visiting
-		// is the right subtree of the node that we're visiting empty?
-		if (node->getRightPtr() == nullptr)
-		{
+void BST::insert(BSTNode* node, char character, string morseCode) {
+	if (this->root == nullptr) {
+		this->root = new BSTNode(character, morseCode);
+	} else if (character > node->getCharacter()) {
+		if (node->getRightPtr() == nullptr) {
 			node->setRightPtr(new BSTNode(character, morseCode));
-		}
-		else // the right subtree is not empty
-		{
+		} else {
 			insert(node->getRightPtr(), character, morseCode);
 		}
-	}
-	else if (character < node->getCharacter())
-	{
-		// is the left subtree empty?
-		if (node->getLeftPtr() == nullptr)
-		{
+	} else if (character < node->getCharacter()) {
+		if (node->getLeftPtr() == nullptr) {
 			node->setLeftPtr(new BSTNode(character, morseCode));
-		}
-		else // the left subtree is not empty
-		{
+		} else {
 			insert(node->getLeftPtr(), character, morseCode);
 		}
-	}
-	else
-	{
-		cout << "duplicate: " << character << endl;
-	}
+	} else {
+        // Duplicate
+    }
 }
 
-void BST::print()
-{
+void BST::print() {
     print(this->root);
 }
 
-void BST::print(BSTNode* node)
-{
-	if (node != nullptr)
-	{
-		print(node->getLeftPtr()); // go left
-		cout << node->getCharacter() << " " << node->getMorseCode() << endl; // process data
-		print(node->getRightPtr()); // go right
+void BST::print(BSTNode* node) {
+	if (node != nullptr) {
+		print(node->getLeftPtr());
+		cout << node->getCharacter() << " " << node->getMorseCode() << endl;
+		print(node->getRightPtr());
 	}
+}
+
+string BST::search(char character) {
+    return search(this->root, character);
+}
+
+string BST::search(BSTNode* node, char character) {
+    if (node == nullptr) {
+        return "";
+    } else if (character > node->getCharacter()) {
+        return search(node->getRightPtr(), character);
+    } else if (character < node->getCharacter()) {
+        return search(node->getLeftPtr(), character);
+    } else {
+        return node->getMorseCode();
+    }
 }

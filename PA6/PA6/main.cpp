@@ -1,7 +1,3 @@
-
-#include <iostream>
-#include "BST.h"
-
 /*
 Programming Assignment 6: Morse Code Lookup BST
 Assigned: Friday, March 10, 2023
@@ -164,42 +160,70 @@ be in its own .h file), and commenting according to class standards
 Andrew S. O’Fallon 5
 */
 
+#include <iostream>
+#include <vector>
+#include "BST.h"
+using std::cout;
+using std::endl;
+using std::vector;
+
+void waitForEnter() {
+    std::cout << std::endl << "Press enter to continue...";
+    std::cin.ignore();
+    std::cin.get();
+}
+
+void clearScreen() {
+    #ifdef _WIN32
+        system("cls");
+    #elif __APPLE__
+        system("clear");
+    #endif
+}
+
 int main(int argc, const char *const argv[])
 {
-    while(true) {
-        #ifdef _WIN32
-            system("cls");
-        #elif __APPLE__
-            system("clear");
-        #endif
-        
-        // Menu
-        std::cout << "Main menu:" << std::endl;
-        std::cout << "1. Run simulation for 24 hours" << std::endl;
-        std::cout << "2. Run simulation for n minutes" << std::endl;
-        std::cout << "3. Run unit tests" << std::endl;
-        std::cout << "4. Exit" << std::endl;
+    clearScreen();
+    
+    // Create and load Morse Code BST Tree
+    BST morseTree;
 
-        // Get choice
-        std::cout << "Enter your choice: ";
-        int choice = 0;
-        std::cin >> choice;
-        std::cout << std::endl;
+    // Print the tree
+    morseTree.print();
+    cout << endl;
 
-        // Do action
-        switch(choice) {
-            default: {
-                BST tree;
-                tree.print();
-                break;
-            }
-        }
+    // Load convert.txt and convert to Morse Code
+    cout << "(Convert.txt)" << endl;
+    fstream file;
+    file.open("Convert.txt");
 
-        // Wait for user to press enter
-        std::cout << std::endl << "Press enter to continue...";
-        std::cin.ignore();
-        std::cin.get();
+    vector<string> toConvert;
+    while (!file.eof()) {
+        string word;
+        file >> word;
+        toConvert.push_back(word);
+        cout << word << " ";
     }
+    cout << endl;
+    file.close();
+
+    // Uppercase all characters
+    for (int i = 0; i < toConvert.size(); i++) {
+        for (int j = 0; j < toConvert[i].size(); j++) {
+            toConvert[i][j] = toupper(toConvert[i][j]);
+        }
+    }
+
+    // Echoed to screen
+    cout << endl << "(Echoed to screen)" << endl;
+    for (int i = 0; i < toConvert.size(); i++) {
+        for (int j = 0; j < toConvert[i].size(); j++) {
+            cout << morseTree.search(toConvert[i][j]) << " ";
+        }
+        cout << "   ";
+    }
+    cout << endl;
+    waitForEnter();
 
     return 0;
 }
