@@ -7,7 +7,6 @@
 
 #include "Simulate.h"
 #include "Queue.h"
-#include <__nullptr>
 
 Simulate::Simulate() {
     this->expressLane = Queue();

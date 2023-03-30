@@ -61,7 +61,7 @@ void FitnessAppWrapper::runApp() {
             case 5:
                 break;
         }
-        system("clear");
+        system("clss");
     } while (choice != 5);
 }
 
