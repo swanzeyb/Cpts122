@@ -10,7 +10,7 @@
       "cwd": "${fileWorkspaceFolder}/${relativeFileDirname}",
       // Ignore debug output garbage: !Loaded '/, !Warning, !=thread, !=library
       "env": { "TERM": "xterm" },
-      "terminal": "integrated", // Or external for sperate window
+      "terminal": "external", // Or integrated | external
       "preLaunchTask": "BuildC",
     }
   ]

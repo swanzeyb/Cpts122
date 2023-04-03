@@ -366,3 +366,6 @@ FodyWeavers.xsd
 *.out
 *.dSYM
 *.plist
+
+# Mac
+.DS_Store
