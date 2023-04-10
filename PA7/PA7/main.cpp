@@ -9,10 +9,10 @@
 #include <fstream>
 #include <string>
 #include <sstream>
-#include "List.h"
+#include "LinkedList.h"
 #include "Record.h"
 #include "DateTime.h"
-#include "CSV.h"
+#include "Table.h"
 using std::string;
 using std::stringstream;
 using std::cout;
@@ -37,20 +37,23 @@ int main(int argc, const char *const argv[])
 {
     clearScreen();
 
-    Table studentsTable;
-    studentsTable.readCSV("classList.csv");
+    Table table;
+    table.readCSV("classList.csv");
 
-    cout << studentsTable["Name"][0].value() << endl;
-    cout << studentsTable["Name"][3].value() << endl;
+    cout << table["Name"][0].value() << endl;
+    cout << table["Name"][3].value() << endl;
 
-    studentsTable.writeCSV("master.csv");
+    table.writeCSV("master.csv");
 
-    List<Record> studentsList;
-    
-    for (const Row& row : studentsTable) {
-        const Cell& cell = row["Name"];
-        cout << cell.value() << endl;
-    }
+    LinkedList<Record> list;
+    table.convert<Record>()
+        .bindColumn("ID", &Record::setId)
+        .bindColumn("Name", &Record::setName)
+        .bindColumn("Email", &Record::setEmail)
+        .bindColumn("Units", &Record::setUnits)
+        .bindColumn("Program", &Record::setProgram)
+        .bindColumn("Level", &Record::setLevel)
+        .toLinkedList(list);
 
     waitForEnter();
     return 0;

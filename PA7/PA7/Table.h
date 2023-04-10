@@ -1,4 +1,6 @@
 
+#pragma once
+
 #include <sstream>
 #include <vector>
 #include <unordered_map>
@@ -6,6 +8,8 @@
 #include <fstream>
 #include <string>
 #include <algorithm>
+#include "LinkedList.h"
+
 using std::string;
 using std::stringstream;
 using std::to_string;
@@ -15,12 +19,12 @@ using std::unordered_map;
 using std::find;
 using std::cout;
 using std::endl;
+using std::size_t;
 
 class Cell {
 public:
     Cell(): value_() {}
     Cell(const string& value): value_(value) {}
-
     ~Cell() {}
 
     template<typename T>
@@ -45,7 +49,8 @@ private:
         T value;
         ss >> value;
         if (ss.fail() || !ss.eof()) {
-            throw std::invalid_argument("invalid argument: " + str);
+            // throw std::invalid_argument("invalid argument: " + str);
+            return T();
         }
         return value;
     }
@@ -67,6 +72,9 @@ public:
 private:
     vector<string>& colNames_;
 };
+
+template <typename T>
+class Converter;
 
 class Table {
 public:
@@ -124,6 +132,14 @@ public:
 
     Iterator end() {
         return Iterator(*this, rowSize_);
+    }
+
+    int rowSize() const {
+        return rowSize_;
+    }
+
+    int colSize() const {
+        return colSize_;
     }
 
     void readCSV(const string filePath, const char delimiter = ',', const char escape = '"') {
@@ -231,7 +247,11 @@ public:
             file.close();
         }
     }
-
+    
+    template <typename T>
+    Converter<T> convert() {
+        return Converter<T>(*this);
+    }
 
 private:
     unordered_map< string, vector<Cell> > cols_;
@@ -249,4 +269,42 @@ private:
         cols_[column].push_back(Cell(value));
         rowSize_ = cols_[column].size();
     }
+};
+
+template <typename T>
+class Converter {
+public:
+    Converter(Table& table): table_(table), records_() {
+        for (size_t r = 0; r < table.rowSize(); r++) {
+            records_.push_back(T());
+        }
+    }
+    ~Converter() {}
+    
+    Converter<T>& bindColumn(const string colName, void (T::*setter)(int)) {
+        for (size_t rowIndex = 0; rowIndex < records_.size(); ++rowIndex) {
+            const Cell& cell = table_[colName][rowIndex];
+            (records_[rowIndex].*setter)(cell.value<int>());
+        }
+        return *this;
+    }
+
+    Converter<T>& bindColumn(const string colName, void (T::*setter)(string)) {
+        for (size_t rowIndex = 0; rowIndex < records_.size(); ++rowIndex) {
+            const Cell& cell = table_[colName][rowIndex];
+            (records_[rowIndex].*setter)(cell.value());
+        }
+        return *this;
+    }
+
+    Converter<T>& toLinkedList(LinkedList<T>& list) {
+        for (const T& record: records_) {
+            list.insertAtFront(record);
+        }
+        return *this;
+    }
+
+private:
+    Table& table_;
+    vector<T> records_;
 };

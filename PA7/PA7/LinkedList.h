@@ -1,5 +1,9 @@
+
+#pragma once
+
 #include <iostream>
 #include <string>
+
 using std::string;
 using std::cout;
 using std::endl;
@@ -14,31 +18,31 @@ public:
 };
 
 template <typename T>
-class List {
+class LinkedList {
 private:
     Node<T>* head;
     int size;
 
 public:
     // Constructor
-    List() : head(nullptr), size(0) {}
+    LinkedList() : head(nullptr), size(0) {}
 
     // Destructor
-    ~List() {
+    ~LinkedList() {
         clear();
     }
 
     // Copy constructor
-    List(const List<T>& other);
+    LinkedList(const LinkedList<T>& other);
 
     // Copy assignment operator
-    List<T>& operator=(const List<T>& other);
+    LinkedList<T>& operator=(const LinkedList<T>& other);
 
     // Move constructor
-    List(List<T>&& other);
+    LinkedList(LinkedList<T>&& other);
 
     // Move assignment operator
-    List<T>& operator=(List<T>&& other);
+    LinkedList<T>& operator=(LinkedList<T>&& other);
 
     // Member functions
     bool isEmpty() const {
@@ -107,7 +111,7 @@ public:
 
     void print() const {
         if (isEmpty()) {
-            cout << "Empty List." << endl;
+            cout << "Empty LinkedList." << endl;
         } else {
             Node<T>* current = head;
             while (current != nullptr) {
