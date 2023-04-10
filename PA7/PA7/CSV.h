@@ -51,6 +51,23 @@ private:
     }
 };
 
+class Row : public vector<Cell> {
+public:
+    Row(vector<string>& colNames): colNames_(colNames) {}
+    ~Row() {}
+
+    const Cell& operator[](const string colName) const {
+        auto it = find(colNames_.begin(), colNames_.end(), colName);
+        if (it == colNames_.end()) {
+            throw std::invalid_argument("invalid argument: " + colName);
+        }
+        return vector<Cell>::operator[](it - colNames_.begin());
+    }
+
+private:
+    vector<string>& colNames_;
+};
+
 class Table {
 public:
     Table(): cols_(), colNames_(), colSize_(0), rowSize_(0) {}
@@ -60,12 +77,53 @@ public:
         return cols_[colName];
     }
 
-    vector<Cell> operator[](const int rowIndex) {
-        vector<Cell> row;
+    Row operator[](const int rowIndex) {
+        Row row(colNames_);
         for (const string colName: colNames_) {
             row.push_back(cols_[colName][rowIndex]);
         }
         return row;
+    }
+
+    // Iterator for each row in the table
+    class Iterator {
+    public:
+        Iterator(Table& table, int rowIndex): table_(table), rowIndex_(rowIndex) {}
+        ~Iterator() {}
+
+        Iterator& operator++() {
+            rowIndex_++;
+            return *this;
+        }
+
+        Iterator operator++(int) {
+            Iterator it = *this;
+            ++(*this);
+            return it;
+        }
+
+        bool operator==(const Iterator& other) const {
+            return rowIndex_ == other.rowIndex_;
+        }
+
+        bool operator!=(const Iterator& other) const {
+            return rowIndex_ != other.rowIndex_;
+        }
+
+        Row operator*() {
+            return table_[rowIndex_];
+        }
+    private:
+        Table& table_;
+        int rowIndex_;
+    };
+
+    Iterator begin() {
+        return Iterator(*this, 0);
+    }
+
+    Iterator end() {
+        return Iterator(*this, rowSize_);
     }
 
     void readCSV(const string filePath, const char delimiter = ',', const char escape = '"') {

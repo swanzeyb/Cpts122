@@ -37,13 +37,20 @@ int main(int argc, const char *const argv[])
 {
     clearScreen();
 
-    Table classList;
-    classList.readCSV("classList.csv");
+    Table studentsTable;
+    studentsTable.readCSV("classList.csv");
 
-    cout << classList["Name"][0].value() << endl;
-    cout << classList["Name"][3].value() << endl;
+    cout << studentsTable["Name"][0].value() << endl;
+    cout << studentsTable["Name"][3].value() << endl;
 
-    classList.writeCSV("master.csv");
+    studentsTable.writeCSV("master.csv");
+
+    List<Record> studentsList;
+    
+    for (const Row& row : studentsTable) {
+        const Cell& cell = row["Name"];
+        cout << cell.value() << endl;
+    }
 
     waitForEnter();
     return 0;
