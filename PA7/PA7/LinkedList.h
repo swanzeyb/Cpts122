@@ -11,7 +11,7 @@ using std::endl;
 template <typename T>
 class Node {
 public:
-    T data;
+    const T& data;
     Node<T>* next;
 
     Node(const T& data, Node<T>* next = nullptr) : data(data), next(next) {}
@@ -19,32 +19,17 @@ public:
 
 template <typename T>
 class LinkedList {
-private:
-    Node<T>* head;
-    int size;
-
 public:
-    // Constructor
     LinkedList() : head(nullptr), size(0) {}
-
-    // Destructor
     ~LinkedList() {
         clear();
     }
-
-    // Copy constructor
     LinkedList(const LinkedList<T>& other);
-
-    // Copy assignment operator
-    LinkedList<T>& operator=(const LinkedList<T>& other);
-
-    // Move constructor
     LinkedList(LinkedList<T>&& other);
 
-    // Move assignment operator
+    LinkedList<T>& operator=(const LinkedList<T>& other);
     LinkedList<T>& operator=(LinkedList<T>&& other);
 
-    // Member functions
     bool isEmpty() const {
         return head == nullptr;
     };
@@ -76,9 +61,11 @@ public:
             return false;
         } else {
             Node<T>* current = head;
+
             while (current->next != nullptr && current->next->data != data) {
                 current = current->next;
             }
+            
             if (current->next == nullptr) {
                 return false;
             } else {
@@ -115,10 +102,14 @@ public:
         } else {
             Node<T>* current = head;
             while (current != nullptr) {
-                cout << current->data << " ";
+                cout << current->data;
                 current = current->next;
             }
             cout << endl;
         }
     };
+
+private:
+    Node<T>* head;
+    int size;
 };

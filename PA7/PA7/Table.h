@@ -20,6 +20,8 @@ using std::find;
 using std::cout;
 using std::endl;
 using std::size_t;
+using std::ostream;
+using std::ifstream;
 
 class Cell {
 public:
@@ -40,6 +42,16 @@ public:
         value_ = value;
     }
 
+    friend ostream& operator<<(ostream& lhs, Cell& cell) {
+        lhs << cell.value_;
+        return lhs;
+    }
+
+    friend ifstream& operator>>(ifstream& lhs, Cell& cell) {
+        lhs >> cell.value_;
+        return lhs;
+    }
+
 private:
     string value_;
 
@@ -49,7 +61,6 @@ private:
         T value;
         ss >> value;
         if (ss.fail() || !ss.eof()) {
-            // throw std::invalid_argument("invalid argument: " + str);
             return T();
         }
         return value;

@@ -13,16 +13,18 @@
 #include "Record.h"
 #include "DateTime.h"
 #include "Table.h"
+
 using std::string;
 using std::stringstream;
 using std::cout;
+using std:: cin;
 using std::endl;
 using std::fstream;
 
 void waitForEnter() {
-    std::cout << std::endl << "Press enter to continue...";
-    std::cin.ignore();
-    std::cin.get();
+    cout << std::endl << "Press enter to continue...";
+    cin.ignore();
+    cin.get();
 }
 
 void clearScreen() {
@@ -40,10 +42,12 @@ int main(int argc, const char *const argv[])
     Table table;
     table.readCSV("classList.csv");
 
-    cout << table["Name"][0].value() << endl;
-    cout << table["Name"][3].value() << endl;
+    cout << table["Name"][0] << endl;
+    cout << table["Name"][3] << endl;
 
     table.writeCSV("master.csv");
+
+    cout << DateTime() << endl;
 
     LinkedList<Record> list;
     table.convert<Record>()
@@ -54,6 +58,9 @@ int main(int argc, const char *const argv[])
         .bindColumn("Program", &Record::setProgram)
         .bindColumn("Level", &Record::setLevel)
         .toLinkedList(list);
+
+    cout << endl;
+    list.print();
 
     waitForEnter();
     return 0;

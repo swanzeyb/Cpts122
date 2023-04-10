@@ -1,18 +1,14 @@
+
+#pragma once
+
 #include <vector>
 
 template <typename T>
 class Stack {
-private:
-    std::vector<T> stack;
-
 public:
-    // Constructor
     Stack() {}
-
-    // Destructor
     ~Stack() {}
 
-    // Member functions
     void push(const T& item) {
         stack.push_back(item);
     };
@@ -32,4 +28,7 @@ public:
     int size() const {
         return stack.size();
     };
+
+private:
+    std::vector<T> stack;
 };

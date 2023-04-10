@@ -1,26 +1,43 @@
 
+#pragma once
+
 #include <iostream>
+#include <string>
+#include <chrono>
 #include <ctime>
-#include <iomanip>
+#include <string>
+#include <iostream>
+#include <chrono>
+#include <ctime> 
+
+using std::string;
 using std::ostream;
 using std::time_t;
-using std::tm;
+using std::strftime;
+using std::localtime;
 
 class DateTime {
-private:
-    time_t unix_time;
-    tm* local_time;
 public:
     DateTime() {
-        // Set the current unix time
-        std::time(&unix_time);
+        char rn[11];
+        time_t unix = time(0);
+        strftime(rn, 11, "%m/%d/%Y", localtime(&unix));
+        
+        // We gotta convert it to a string
+        string rnfr(rn);
+        dateTime_ = rnfr;
+    }
+    ~DateTime() {}
 
-        // Convert unix time to local time
-        local_time = std::localtime(&unix_time);
+    string toString() {
+        return dateTime_;
     }
 
     friend ostream& operator<<(ostream& os, const DateTime& dt) {
-        os << std::put_time(dt.local_time, "%Y-%m-%d %H:%M:%S");
+        os << dt.dateTime_;
         return os;
     }
+
+private:
+    string dateTime_;
 };
