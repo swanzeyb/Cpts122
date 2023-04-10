@@ -2,16 +2,15 @@
   "version": "0.2.0",
   "configurations": [
     {
-      // MacOS
-      "name": "Debug (LLDB)",
+      "name": "C/C++: clang++ build and debug active file",
       "type": "lldb",
       "request": "launch",
       "program": "${fileWorkspaceFolder}/${relativeFileDirname}/prgrm.out",
       "cwd": "${fileWorkspaceFolder}/${relativeFileDirname}",
-      // Ignore debug output garbage: !Loaded '/, !Warning, !=thread, !=library
+      "args": [],
       "env": { "TERM": "xterm" },
       "terminal": "integrated", // Or integrated | external
-      "preLaunchTask": "BuildC",
+      "preLaunchTask": "C/C++: clang++ build active file"
     }
   ]
 }

@@ -5,12 +5,14 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <algorithm>
 using std::string;
 using std::stringstream;
 using std::to_string;
 using std::fstream;
 using std::vector;
 using std::unordered_map;
+using std::find;
 using std::cout;
 using std::endl;
 
@@ -18,6 +20,8 @@ class Cell {
 public:
     Cell(): value_() {}
     Cell(const string& value): value_(value) {}
+
+    ~Cell() {}
 
     template<typename T>
     T value() const {
@@ -49,10 +53,19 @@ private:
 
 class Table {
 public:
-    Table() {}
+    Table(): cols_(), colNames_(), colSize_(0), rowSize_(0) {}
+    ~Table() {}
     
-    const vector<Cell>& operator[](string col) {
-        return cols_[col];
+    vector<Cell>& operator[](const string& colName) {
+        return cols_[colName];
+    }
+
+    vector<Cell> operator[](const int rowIndex) {
+        vector<Cell> row;
+        for (const string colName: colNames_) {
+            row.push_back(cols_[colName][rowIndex]);
+        }
+        return row;
     }
 
     void readCSV(const string filePath, const char delimiter = ',', const char escape = '"') {
@@ -60,7 +73,7 @@ public:
         file.open(filePath);
 
         if (file.is_open()) {
-            char c;
+            char c = '\0';
             string line;
             string value;
             int rowIndex = 0;
@@ -73,28 +86,25 @@ public:
                 // Read each char and build col
                 stringstream ss(line);
                 while (ss.get(c)) {
-                    if (c == '\r' || c == '\n') {
-                        value = "";
-                        continue;
-                    } else if (c == escape) {
+                    if (c == escape) {
                         escapedCol = !escapedCol;
-                    } else if (c == delimiter && !escapedCol) {
+                    } else if ((c == delimiter || c == '\r' || c == '\n') && !escapedCol) {
                         // At the end of the column value
 
                         // Setup our columns
                         if (rowIndex == 0) {
                             if (value == "") {
-                                if (!cols_.count("index_")) {
-                                    cols_["index_"] = vector<Cell>();
-                                    colNames_.push_back("index_");
+                                string colName;
+
+                                if (colIndex == 0) {
+                                    colName = "index_";
                                 } else {
-                                    string colName = "Col " + to_string(colIndex);
-                                    cols_[colName] = vector<Cell>();
-                                    colNames_.push_back(colName);
+                                    colName = "Col " + to_string(colIndex);
                                 }
+
+                                addColumn(colName);
                             } else {
-                                cols_[value] = vector<Cell>();
-                                colNames_.push_back(value);
+                                addColumn(value);
                             }
                         } else {
                             // Save the read data
@@ -105,7 +115,7 @@ public:
                                 Cell& cell = cols_[colName][rowIndex - 1]; // Subtract 1 from rowIndex because header row
                                 cell.value(cell.value() + " " + value);
                             } else {
-                                cols_[colName].push_back(Cell(value));
+                                addValue(colName, value);
                             }
                         }
 
@@ -125,12 +135,60 @@ public:
         }
     }
 
-    void writeCSV(string filePath, char delimiter = ',', char quote = '"') const {
+    void writeCSV(const string filePath, const char delimiter = ',', const char escape = '"') {
+        fstream file;
+        file.open(filePath, std::ios::out);
 
+        if (file.is_open()) {
+            // Write header columns
+            for (int c = 0; c < colNames_.size(); c++) {
+                if (c != 0) {
+                    file << delimiter;
+                }
+                file << colNames_[c];
+            }
+            file << '\n';
+
+            // Get each row
+            for (int r = 0; r < rowSize_; r++) {
+                vector<Cell> row = (*this)[r];
+
+                // Write each column
+                for (int c = 0; c < colSize_; c++) {
+                    // Escape delimiter if present in val
+                    string value = row[c].value();
+                    if (value.find(delimiter) != std::string::npos) {
+                        value = escape + value + escape;
+                    }
+
+                    if (c != 0) {
+                        file << delimiter;
+                    }
+                    file << value;
+                }
+
+                file << '\n';
+            }
+
+            file.close();
+        }
     }
 
 
 private:
     unordered_map< string, vector<Cell> > cols_;
     vector<string> colNames_;
+    int colSize_;
+    int rowSize_;
+
+    void addColumn(const string name) {
+        cols_[name] = vector<Cell>();
+        colNames_.push_back(name);
+        colSize_ += 1;
+    }
+
+    void addValue(const string column, const string value) {
+        cols_[column].push_back(Cell(value));
+        rowSize_ = cols_[column].size();
+    }
 };
