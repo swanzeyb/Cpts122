@@ -10,6 +10,8 @@
         "-stdlib=libc++",
         "-g",
         "${fileWorkspaceFolder}/${relativeFileDirname}/*.cpp",
+        "-g",
+        "${fileWorkspaceFolder}/${relativeFileDirname}/*/*.cpp",
         "-o",
         "${fileWorkspaceFolder}/${relativeFileDirname}/prgrm.out"
       ],
@@ -20,7 +22,7 @@
       "options": {
         "cwd": "${workspaceFolder}"
       },
-      // "problemMatcher": [""],
+      "problemMatcher": ["$gcc"],
       "group": {
         "kind": "build",
         "isDefault": true

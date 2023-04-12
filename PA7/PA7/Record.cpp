@@ -48,3 +48,7 @@ void Record::setProgram(string program) {
 void Record::setLevel(string level) {
     this->level = level;
 }
+
+Stack<string>& Record::absences() {
+    return this->absences_;
+}

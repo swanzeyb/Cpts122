@@ -11,7 +11,7 @@ using std::endl;
 template <typename T>
 class Node {
 public:
-    const T& data;
+    T data;
     Node<T>* next;
 
     Node(const T& data, Node<T>* next = nullptr) : data(data), next(next) {}
@@ -107,6 +107,10 @@ public:
             }
             cout << endl;
         }
+    };
+
+    Node<T>* getHead() const {
+        return head;
     };
 
 private:

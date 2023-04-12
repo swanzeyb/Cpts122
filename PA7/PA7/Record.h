@@ -46,6 +46,7 @@ public:
     void setUnits(int units);
     void setProgram(string program);
     void setLevel(string level);
+    Stack<string>& absences();
 
 private:
     int id;
@@ -54,4 +55,5 @@ private:
     int units;
     string program;
     string level;
+    Stack<string> absences_;
 };

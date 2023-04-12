@@ -2,6 +2,10 @@
 #pragma once
 
 #include <vector>
+#include <string>
+
+using std::string;
+using std::vector;
 
 template <typename T>
 class Stack {
@@ -30,5 +34,5 @@ public:
     };
 
 private:
-    std::vector<T> stack;
+    vector<T> stack;
 };

@@ -66,6 +66,9 @@
     "__string": "cpp",
     "compare": "cpp",
     "concepts": "cpp",
-    "algorithm": "cpp"
+    "algorithm": "cpp",
+    "functional": "cpp",
+    "filesystem": "cpp",
+    "__memory": "cpp"
   }
 }
