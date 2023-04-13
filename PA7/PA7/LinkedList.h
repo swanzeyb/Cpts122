@@ -1,3 +1,9 @@
+/**
+ * @file LinkedList.h
+ * @brief A generic LinkedList implementation
+ * @author Benjamin Swanzey (benjamin.swanzey@wsu.edu)
+ * @date 2023-04-03
+ */
 
 #pragma once
 
@@ -24,25 +30,41 @@ public:
     ~LinkedList() {
         clear();
     }
-    LinkedList(const LinkedList<T>& other);
-    LinkedList(LinkedList<T>&& other);
 
-    LinkedList<T>& operator=(const LinkedList<T>& other);
-    LinkedList<T>& operator=(LinkedList<T>&& other);
-
+    /**
+     * @brief Checks if the LinkedList is empty
+     * 
+     * @return true 
+     * @return false 
+     */
     bool isEmpty() const {
         return head == nullptr;
     };
 
+    /**
+     * @brief Get the count of elements
+     * 
+     * @return int 
+     */
     int getSize() const {
         return size;
     };
 
+    /**
+     * @brief Inserts an element at the front
+     * 
+     * @param data 
+     */
     void insertAtFront(const T& data) {
         head = new Node<T>(data, head);
         size++;
     };
 
+    /**
+     * @brief Inserts an element at the back
+     * 
+     * @param data 
+     */
     void insertAtBack(const T& data) {
         if (isEmpty()) {
             insertAtFront(data);
@@ -56,6 +78,13 @@ public:
         }
     };
 
+    /**
+     * @brief Finds and removes an element
+     * 
+     * @param data 
+     * @return true 
+     * @return false 
+     */
     bool remove(const T& data) {
         if (isEmpty()) {
             return false;
@@ -78,6 +107,12 @@ public:
         }
     };
 
+    /**
+     * @brief Finds an element
+     * 
+     * @param data 
+     * @return Node<T>* 
+     */
     Node<T>* find(const T& data) const {
         if (isEmpty()) {
             return nullptr;
@@ -90,6 +125,10 @@ public:
         }
     };
 
+    /**
+     * @brief Empties the list and deletes all nodes
+     * 
+     */
     void clear() {
         Node<T>* current = head;
         while (current != nullptr) {
@@ -101,6 +140,10 @@ public:
         head = nullptr;
     };
 
+    /**
+     * @brief Prints each element
+     * 
+     */
     void print() const {
         if (isEmpty()) {
             cout << "Empty LinkedList." << endl;
@@ -114,6 +157,11 @@ public:
         }
     };
 
+    /**
+     * @brief Get the head of llist
+     * 
+     * @return Node<T>* 
+     */
     Node<T>* getHead() const {
         return head;
     };

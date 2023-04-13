@@ -1,8 +1,8 @@
 /**
  * @file Main.cpp
- * @brief Uses a binary search tree to convert a text file to morse code
+ * @brief Create a program to track student attendance using LinkedLists.
  * @author Benjamin Swanzey (benjamin.swanzey@wsu.edu)
- * @date 2023-03-21
+ * @date 2023-04-03
  */
 
 #include <iostream>
@@ -18,6 +18,12 @@ using std::cout;
 using std::cin;
 using std::endl;
 
+/**
+ * @brief Converts a Table to a LinkedList
+ * 
+ * @param table 
+ * @param list 
+ */
 void tableToLinkedList(Table& table, LinkedList<Record>& list) {
     table.convert<Record>()
         .bindColumn("ID", &Record::setId)

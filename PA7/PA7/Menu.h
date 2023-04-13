@@ -1,3 +1,9 @@
+/**
+ * @file Menu.h
+ * @brief Static class to handle menu display and input
+ * @author Benjamin Swanzey (benjamin.swanzey@wsu.edu)
+ * @date 2023-04-03
+ */
 
 #pragma once
 
@@ -12,12 +18,20 @@ public:
     Menu() {};
     ~Menu() {};
 
+    /**
+     * @brief Waits for the user to press enter
+     * 
+     */
     static void waitForEnter() {
         cout << std::endl << "Press enter to continue...";
         cin.ignore();
         cin.get();
     }
 
+    /**
+     * @brief Clears the terminal
+     * 
+     */
     static void clearScreen() {
         #ifdef _WIN32
             system("cls");
@@ -26,6 +40,10 @@ public:
         #endif
     }
 
+    /**
+     * @brief Prints the menu choices
+     * 
+     */
     static void print() {
         cout << "1. Import course list" << endl;
         cout << "2. Load master list" << endl;
@@ -36,6 +54,11 @@ public:
         cout << "7. Exit" << endl;
     }
 
+    /**
+     * @brief Gets the user's choice
+     * 
+     * @return int 
+     */
     static int eval() {
         int choice;
         cout << "Enter your choice: ";

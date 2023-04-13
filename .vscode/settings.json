@@ -69,6 +69,8 @@
     "algorithm": "cpp",
     "functional": "cpp",
     "filesystem": "cpp",
-    "__memory": "cpp"
+    "__memory": "cpp",
+    "iterator": "cpp",
+    "memory_resource": "cpp"
   }
 }
