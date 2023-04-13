@@ -91,9 +91,14 @@ public:
     };
 
     void clear() {
-        while (!isEmpty()) {
-            remove(head->data);
+        Node<T>* current = head;
+        while (current != nullptr) {
+            Node<T>* temp = current;
+            current = current->next;
+            delete temp;
+            size--;
         }
+        head = nullptr;
     };
 
     void print() const {

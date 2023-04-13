@@ -6,20 +6,17 @@
  */
 
 #include <iostream>
-#include <fstream>
 #include <string>
 #include "LinkedList.h"
 #include "Record.h"
 #include "DateTime.h"
 #include "Table/Table.h"
-#include "Table/Row.h"
 #include "Menu.h"
 
 using std::string;
 using std::cout;
-using std:: cin;
+using std::cin;
 using std::endl;
-using std::fstream;
 
 void tableToLinkedList(Table& table, LinkedList<Record>& list) {
     table.convert<Record>()
