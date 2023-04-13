@@ -28,12 +28,6 @@ public:
         return *this;
     }
 
-    Iterator operator++(int) {
-        Iterator it = *this;
-        ++(*this);
-        return it;
-    }
-
     bool operator==(const Iterator& other) const {
         return rowIndex_ == other.rowIndex_;
     }
