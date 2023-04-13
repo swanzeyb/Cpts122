@@ -19,3 +19,9 @@ Cell& Col::where(const string& value) const {
     }
     throw invalid_argument("invalid argument: " + value);
 }
+
+void Col::setNAValue(const string& value) {
+    for (Cell& cell: col_) {
+        cell.setNAValue(value);
+    }
+}

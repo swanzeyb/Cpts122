@@ -5,8 +5,7 @@ Table::Table(): cols_(), colNames_(), colSize_(0), rowSize_(0) {}
 Table::~Table() {}
 
 Col Table::operator[](const string& colName) {
-    int count = cols_.count(colName);
-    if (cols_.count(colName) == 0) {
+    if (!cols_.count(colName)) {
         addColumn(colName);
     }
     Col col(cols_[colName], colName);
@@ -15,9 +14,6 @@ Col Table::operator[](const string& colName) {
 
 Row Table::operator[](const int& rowIndex) {
     Row row(*this, rowIndex);
-    for (const string colName: colNames_) {
-        row.push_back(&cols_[colName][rowIndex]);
-    }
     return row;
 }
 
@@ -96,6 +92,21 @@ void Table::addValue(const string& column, string& value) {
     rowSize_ = rowIndex + 1;
 }
 
+Table* Table::select(const vector<string>& colNames) {
+    Table* table = new Table();
+    for (const string& colName: colNames) {
+        table->addColumn(colName);
+    }
+
+    for (const string colName: colNames) {
+        for (int r = 0; r < rowSize_; r++) {
+            table->addValue(colName, (*this)[colName][r].value());
+        }
+    }
+
+    return table;
+}
+
 void Table::readCSV(const string& filePath, const char delimiter, const char escape) {
     fstream file;
     file.open(filePath);
@@ -163,7 +174,7 @@ void Table::readCSV(const string& filePath, const char delimiter, const char esc
     }
 }
 
-void Table::writeCSV(const string& filePath, const char delimiter, const char escape) {
+void Table::writeCSV(const string& filePath, const char delimiter, const char escape) const {
     fstream file;
     file.open(filePath, std::ios::out);
 
@@ -179,20 +190,20 @@ void Table::writeCSV(const string& filePath, const char delimiter, const char es
 
         // Get each row
         for (int r = 0; r < rowSize_; r++) {
-            Row row = (*this)[r];
-
             // Write each column
             for (int c = 0; c < colSize_; c++) {
-                // Escape delimiter if present in val
-                string value = row[c].value();
-                if (value.find(delimiter) != std::string::npos) {
-                    value = escape + value + escape;
-                }
+                const string& value = cols_.at(colNames_[c])[r].value();
 
                 if (c != 0) {
                     file << delimiter;
                 }
-                file << value;
+
+                // Escape delimiter if present in val
+                if (value.find(delimiter) != std::string::npos) {
+                    file << escape << value << escape;
+                } else {
+                    file << value;
+                }
             }
 
             file << '\n';

@@ -35,9 +35,7 @@ public:
     ~Table();
     
     Col operator[](const string& colName);
-
     Row operator[](const int& rowIndex);
-
     // Iterator for each row in the table
     class Iterator;
 
@@ -59,9 +57,11 @@ public:
 
     void addValue(const string& column, string& value);
 
+    Table* select(const vector<string>& colNames);
+
     void readCSV(const string& filePath, const char delimiter = ',', const char escape = '"');
 
-    void writeCSV(const string& filePath, const char delimiter = ',', const char escape = '"');
+    void writeCSV(const string& filePath, const char delimiter = ',', const char escape = '"') const;
     
     template <typename T>
     Converter<T> convert() {

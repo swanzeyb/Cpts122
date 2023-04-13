@@ -9,34 +9,29 @@ using std::stringstream;
 
 class Cell {
 public:
-    Cell(int row): value_(""), row_(row) {}
-    Cell(string& value, int row): value_(value), row_(row) {}
-    ~Cell() {}
+    Cell(int row);
+    Cell(const string& value, int row);
+    Cell(string& value, int row);
+    ~Cell();
 
-    void operator=(const string& value) {
-        value_ = value;
-    }
+    void operator=(const string& value);
 
     template<typename T>
     T value() const {
         return Cell::parse<T>(value_);
     }
 
-    string value() const {
-        return value_;
-    }
+    string value() const;
 
-    void value(const string& value) {
-        value_ = value;
-    }
+    string& value();
 
-    int& getRow() {
-        return row_;
-    }
+    void value(const string& value);
 
-    void setRow(const int& row) {
-        row_ = row;
-    }
+    int& getRow();
+
+    void setRow(const int& row);
+
+    void setNAValue(const string& value);
 
 private:
     string value_;

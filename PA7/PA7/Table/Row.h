@@ -10,7 +10,7 @@ using std::invalid_argument;
 
 class Table;
 
-class Row : public vector<Cell*> {
+class Row {
 public:
     Row(Table& table, int rowIndex);
     ~Row();
@@ -21,9 +21,9 @@ public:
 
     Cell& where(const string& value) const;
 
+    void setNAValue(const string& value);
+
 private:
     Table& table_;
     int rowIndex_;
-
-    int getColIndex(const string& colName) const;
 };

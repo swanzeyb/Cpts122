@@ -16,6 +16,7 @@ public:
 
     Cell& operator[](const int& rowIndex) const;
     Cell& where(const string& value) const;
+    void setNAValue(const string& value);
 
 private:
     vector<Cell>& col_;

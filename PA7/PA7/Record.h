@@ -11,6 +11,7 @@ using std::endl;
 
 class Record {
 public:
+    Record(int id) : id(id), name(""), email(""), units(0), program(""), level("") {}
     Record() : id(0), name(""), email(""), units(0), program(""), level("") {}
     ~Record() {}
 
