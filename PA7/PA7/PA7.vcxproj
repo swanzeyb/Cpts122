@@ -27,17 +27,23 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BST.cpp" />
-    <ClCompile Include="BSTNode.cpp" />
+    <ClInclude Include="DateTime.h" />
+    <ClInclude Include="LinkedList.h" />
+    <ClInclude Include="Menu.h" />
+    <ClInclude Include="Record.h" />
+    <ClInclude Include="Stack.h" />
+    <ClInclude Include="Table\Cell.h" />
+    <ClInclude Include="Table\Col.h" />
+    <ClInclude Include="Table\Row.h" />
+    <ClInclude Include="Table\Table.h" />
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="BST.h" />
-    <ClInclude Include="BSTNode.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="Convert.txt" />
-    <Text Include="MorseTable.txt" />
+    <ClCompile Include="Record.cpp" />
+    <ClCompile Include="Table\Cell.cpp" />
+    <ClCompile Include="Table\Col.cpp" />
+    <ClCompile Include="Table\Row.cpp" />
+    <ClCompile Include="Table\Table.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

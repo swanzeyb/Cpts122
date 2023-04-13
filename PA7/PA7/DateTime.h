@@ -1,5 +1,6 @@
 
 #pragma once
+#pragma warning(disable:4996)
 
 #include <iostream>
 #include <string>
@@ -8,7 +9,7 @@
 #include <string>
 #include <iostream>
 #include <chrono>
-#include <ctime> 
+#include <ctime>
 
 using std::string;
 using std::ostream;

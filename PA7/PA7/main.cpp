@@ -37,7 +37,7 @@ void tableToLinkedList(Table& table, LinkedList<Record>& list) {
 
 int main(int argc, const char *const argv[])
 {
-    Table table;
+    Table* table = new Table();
     LinkedList<Record> list;
     int choice;
 
@@ -50,22 +50,26 @@ int main(int argc, const char *const argv[])
 
         switch(choice) {
             case 1: {
-                table.readCSV("classList.csv");
+                delete table;
+                table = new Table();
+                table->readCSV("classList.csv");
                 list.clear();
-                tableToLinkedList(table, list);
-                table.writeCSV("master.csv");
+                tableToLinkedList(*table, list);
+                table->writeCSV("master.csv");
                 cout << "Read course file and overwrote master file." << endl;
                 break;
             }
             case 2: {
-                table.readCSV("master.csv");
+                delete table;
+                table = new Table();
+                table->readCSV("master.csv");
                 list.clear();
-                tableToLinkedList(table, list);
+                tableToLinkedList(*table, list);
                 cout << "Populated the master list with the master file." << endl;
                 break;
             }
             case 3: {
-                table.writeCSV("master.csv");
+                table->writeCSV("master.csv");
                 cout << "Written the master list to the master file." << endl;
                 break;
             }
@@ -81,10 +85,10 @@ int main(int argc, const char *const argv[])
                     cin >> answer;
                     cout << endl;
 
-                    const int& row = table.where("ID", current->data.getId()).getRow();
+                    const int& row = table->where("ID", current->data.getId()).getRow();
                     if (answer == 'n') {
                         current->data.absences().push(today);
-                        table[row]["Absences"] = to_string(current->data.absences().size());
+                        (*table)[row]["Absences"] = to_string(current->data.absences().size());
                         cout << "Marked " << current->data.getName() << "absent on " << DateTime().toString() << endl;
                     }
                     
@@ -92,7 +96,7 @@ int main(int argc, const char *const argv[])
                     current = current->next;
                 };
                 
-                table["Absences"].setNAValue("0");
+                (*table)["Absences"].setNAValue("0");
                 break;
             }
             case 5: {
@@ -115,7 +119,7 @@ int main(int argc, const char *const argv[])
                     }
                 }
                 if (choice == 1) {
-                    Table* absences = table.select({"ID", "Name", "Absences"});
+                    Table* absences = table->select({"ID", "Name", "Absences"});
 
                     // Add the date of the most recent absence
                     Node<Record>* record;
@@ -178,6 +182,9 @@ int main(int argc, const char *const argv[])
 
         Menu::waitForEnter();
     }
+
+    delete table;
+    table = nullptr;
 
     return 0;
 }

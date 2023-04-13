@@ -15,30 +15,52 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BST.cpp">
+    <ClInclude Include="DateTime.h">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BSTNode.cpp">
+    </ClInclude>
+    <ClInclude Include="LinkedList.h">
       <Filter>Source Files</Filter>
-    </ClCompile>
+    </ClInclude>
+    <ClInclude Include="Menu.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Record.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Stack.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Table\Cell.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Table\Col.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Table\Row.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Table\Table.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="BST.h">
+    <ClCompile Include="Record.cpp">
       <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BSTNode.h">
+    </ClCompile>
+    <ClCompile Include="Table\Cell.cpp">
       <Filter>Source Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="Convert.txt">
+    </ClCompile>
+    <ClCompile Include="Table\Col.cpp">
       <Filter>Source Files</Filter>
-    </Text>
-    <Text Include="MorseTable.txt">
+    </ClCompile>
+    <ClCompile Include="Table\Row.cpp">
       <Filter>Source Files</Filter>
-    </Text>
+    </ClCompile>
+    <ClCompile Include="Table\Table.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
