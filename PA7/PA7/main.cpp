@@ -132,35 +132,33 @@ int main(int argc, const char *const argv[])
                     delete absences;
                     absences = nullptr;
                 } else {
-                    int days = 0;
-                    while(days < 1) {
+                    int days = -1;
+                    while(days < 0) {
                         cout << "Generate report of students absent more than: ";
                         int answer;
                         cin >> answer;
                         cout << " days." << endl;
-                        if (answer < 1) {
+                        if (answer < 0) {
                             cout << "Invalid choice." << endl;
                         } else {
                             days = answer;
                         }
                     }
 
-                    Table* absences = table.select({"ID", "Name", "Absences"});
+                    Table* absences = new Table();
 
-                    // Add the date of the most recent absence
-                    Node<Record>* record;
-                    for (int i = 0; i < absences->rowSize(); i++) {
-                        int id = (*absences)[i]["ID"].value<int>();
-                        record = list.find(Record(id));
-                        if (record != nullptr) {
-                            Stack<string>& absStack = record->data.absences();
-                            if (absStack.size() > days) {
-                                (*absences)[i]["Last Absence"] = absStack.peek();
-                            }
+
+                    Node<Record>* record = list.getHead();
+                    while (record != nullptr) {
+                        if (record->data.absences().size() > days) {
+                            int row = absences->rowSize();
+                            (*absences)[row]["ID"] = record->data.getId();
+                            (*absences)[row]["Name"] = record->data.getName();
+                            (*absences)[row]["Absences"] = record->data.absences().size();
                         }
+                        record = record->next;
                     }
 
-                    (*absences)["Last Absence"].setNAValue("None");
                     absences->writeCSV("absences.csv");
                     delete absences;
                     absences = nullptr;
@@ -169,6 +167,7 @@ int main(int argc, const char *const argv[])
             }
             case 7:
                 return 0;
+                break;
             default:
                 cout << "Invalid choice" << endl;
                 break;

@@ -5,6 +5,7 @@
 #include <sstream>
 
 using std::string;
+using std::to_string;
 using std::stringstream;
 
 class Cell {
@@ -15,6 +16,11 @@ public:
     ~Cell();
 
     void operator=(const string& value);
+
+    template <typename T>
+    void operator=(const T& value) {
+        value_ = to_string(value);
+    }
 
     template<typename T>
     T value() const {

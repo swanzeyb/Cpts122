@@ -33,6 +33,9 @@ class Table {
 public:
     Table();
     ~Table();
+
+    friend Row;
+    friend Col;
     
     Col operator[](const string& colName);
     Row operator[](const int& rowIndex);

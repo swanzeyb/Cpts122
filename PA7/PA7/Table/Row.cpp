@@ -5,6 +5,9 @@ Row::Row(Table& table, int rowIndex): table_(table), rowIndex_(rowIndex) {}
 Row::~Row() {}
 
 Cell& Row::operator[](const string& colName) {
+    if (rowIndex_ == table_.rowSize()) {
+        table_.rowSize_ += 1;
+    }
     return table_[colName][rowIndex_];
 }
 
