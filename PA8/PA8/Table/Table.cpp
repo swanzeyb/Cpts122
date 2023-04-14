@@ -86,8 +86,13 @@ void Table::readCSV(const string& filePath, const char delimiter, const char esc
             while (ss.get(c)) {
                 if (c == escape) {
                     escapedCol = !escapedCol;
-                } else if ((c == delimiter || c == '\r' || c == '\n') && !escapedCol) {
+                } else if ((c == delimiter || c == '\r' || c == '\n' || ss.peek() == EOF) && !escapedCol) {
                     // At the end of the column value
+
+                    // Windows stringstream handles EOF differently than the Mac implementation :(
+                    if (ss.peek() == EOF) {
+                        value += c;
+                    }
 
                     // Setup our columns
                     if (rowIndex == 0) {

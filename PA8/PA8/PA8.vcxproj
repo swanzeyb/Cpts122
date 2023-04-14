@@ -27,23 +27,31 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DateTime.h" />
-    <ClInclude Include="LinkedList.h" />
+    <ClInclude Include="BST.h" />
+    <ClInclude Include="DataAnalysis.h" />
     <ClInclude Include="Menu.h" />
-    <ClInclude Include="Record.h" />
-    <ClInclude Include="Stack.h" />
+    <ClInclude Include="Node.h" />
+    <ClInclude Include="Structures\DateTime.h" />
+    <ClInclude Include="Structures\LinkedList.h" />
+    <ClInclude Include="Structures\Stack.h" />
     <ClInclude Include="Table\Cell.h" />
     <ClInclude Include="Table\Col.h" />
     <ClInclude Include="Table\Row.h" />
     <ClInclude Include="Table\Table.h" />
+    <ClInclude Include="TransactionNode.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DataAnalysis.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Record.cpp" />
+    <ClCompile Include="Node.cpp" />
     <ClCompile Include="Table\Cell.cpp" />
     <ClCompile Include="Table\Col.cpp" />
     <ClCompile Include="Table\Row.cpp" />
     <ClCompile Include="Table\Table.cpp" />
+    <ClCompile Include="TransactionNode.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="data.csv" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

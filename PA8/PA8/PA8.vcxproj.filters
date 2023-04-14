@@ -15,19 +15,19 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DateTime.h">
+    <ClInclude Include="BST.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="LinkedList.h">
+    <ClInclude Include="DataAnalysis.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="Menu.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Record.h">
+    <ClInclude Include="Node.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Stack.h">
+    <ClInclude Include="TransactionNode.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="Table\Cell.h">
@@ -42,12 +42,27 @@
     <ClInclude Include="Table\Table.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="Structures\DateTime.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Structures\LinkedList.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Structures\Stack.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DataAnalysis.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Record.cpp">
+    <ClCompile Include="Node.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TransactionNode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Table\Cell.cpp">
@@ -62,5 +77,10 @@
     <ClCompile Include="Table\Table.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="data.csv">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
