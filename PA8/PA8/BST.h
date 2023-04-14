@@ -33,11 +33,11 @@ public:
         this->inOrderTraversal(mpRoot_);
     }
 
-    T& findSmallest() const {
+    T& findSmallest() {
         return this->findSmallest(mpRoot_);
     }
 
-    T& findLargest() const {
+    T& findLargest() {
         return this->findLargest(mpRoot_);
     }
 
@@ -72,17 +72,17 @@ private:
         }
     }
 
-    T& findSmallest(Node* pNode) const {
+    T& findSmallest(Node* pNode) {
         if (pNode->getLeft() == nullptr) {
-            return pNode->getData();
+            return *(T*)pNode;
         } else {
             return findSmallest(pNode->getLeft());
         }
     }
 
-    T& findLargest(Node* pNode) const {
+    T& findLargest(Node* pNode) {
         if (pNode->getRight() == nullptr) {
-            return pNode->getData();
+            return *(T*)pNode;
         } else {
             return findLargest(pNode->getRight());
         }

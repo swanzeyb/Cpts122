@@ -11,6 +11,7 @@
 #include "Table/Table.h"
 #include "BST.h"
 #include "TransactionNode.h"
+#include "DataAnalysis.h"
 
 using std::string;
 using std::cout;
@@ -19,6 +20,8 @@ using std::endl;
 
 int main(int argc, const char *const argv[])
 {
+    Menu::clearScreen();
+
     // Load the sales data
     Table table;
     table.readCSV("data.csv");
@@ -32,24 +35,22 @@ int main(int argc, const char *const argv[])
         const string& type = row["Type"].value();
         const int& units = row["Units"].value<int>();
 
-        cout << row["Units"].value() << endl;
-        cout << row["Type"].value() << endl;
-        bought.insert(TransactionNode(type, units));
-
-        // if (row["Transaction"].value() == "Purchased") {
-        //     bought.insert(TransactionNode(type, units));
-        // } else {
-        //     sold.insert(TransactionNode(type, units));
-        // }
-        
-        // Units,Type,Transaction
-        // cout << row["Units"].value() << endl;
-        // cout << row["Type"].value() << endl;
-        // cout << row["Transaction"].value() << endl;
+        if (row["Transaction"].value() == "Purchased") {
+            bought.insert(TransactionNode(type, units));
+        } else {
+            sold.insert(TransactionNode(type, units));
+        }
     }
 
-    Menu::clearScreen();
-    bought.inOrderTraversal();
+    // Display the data
+    cout << "Sales Figures:" << endl;
+    DataAnalysis::displayTrees(bought, sold);
+    cout << endl << endl;
 
+    // Display trends
+    cout << "Sales Trends:" << endl;
+    DataAnalysis::displayTrends(bought, sold);
+
+    Menu::waitForEnter();
     return 0;
 }
