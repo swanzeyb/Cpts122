@@ -1,6 +1,6 @@
 /**
  * @file Main.cpp
- * @brief Create a program to track student attendance using LinkedLists.
+ * @brief Create a program to analyze sales data.
  * @author Benjamin Swanzey (benjamin.swanzey@wsu.edu)
  * @date 2023-04-03
  */

@@ -1,3 +1,9 @@
+/**
+ * @file BST.cpp
+ * @brief Generic Binary Search Tree implementation.
+ * @author Benjamin Swanzey (benjamin.swanzey@wsu.edu)
+ * @date 2023-04-03
+ */
 
 #pragma once
 
@@ -10,16 +16,34 @@ template <typename T>
 class BST {
 public:
     BST(): mpRoot_(nullptr) {}
-    ~BST() {}
+    ~BST() {
+        // destroyTree(mpRoot_);
+    }
 
+    /**
+     * @brief Get the Root object
+     * 
+     * @return Node* 
+     */
     Node* getRoot() const {
         return mpRoot_;
     }
 
+    /**
+     * @brief Set the Root object
+     * 
+     * @param pRoot 
+     */
     void setRoot(Node* pRoot) {
         mpRoot_ = pRoot;
     }
 
+    /**
+     * @brief Insert a new node into the tree.
+     * 
+     * @tparam U Record type
+     * @param data 
+     */
     template <typename U>
     void insert(const U& data) {
         if (mpRoot_ == nullptr) {
@@ -29,14 +53,28 @@ public:
         }
     }
 
+    /**
+     * @brief Print the tree in ascending order.
+     * 
+     */
     void inOrderTraversal() const {
         this->inOrderTraversal(mpRoot_);
     }
 
+    /**
+     * @brief Find the smallest node in the tree.
+     * 
+     * @return T& Record type
+     */
     T& findSmallest() {
         return this->findSmallest(mpRoot_);
     }
 
+    /**
+     * @brief Find the largest node in the tree.
+     * 
+     * @return T& Record type
+     */
     T& findLargest() {
         return this->findLargest(mpRoot_);
     }
