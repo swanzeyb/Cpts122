@@ -17,41 +17,6 @@ Row Table::operator[](const int& rowIndex) {
     return row;
 }
 
-// Iterator for each row in the table
-class Table::Iterator {
-public:
-    Iterator(Table& table, int rowIndex): table_(table), rowIndex_(rowIndex) {}
-    ~Iterator() {}
-
-    Iterator& operator++() {
-        rowIndex_++;
-        return *this;
-    }
-
-    bool operator==(const Iterator& other) const {
-        return rowIndex_ == other.rowIndex_;
-    }
-
-    bool operator!=(const Iterator& other) const {
-        return rowIndex_ != other.rowIndex_;
-    }
-
-    Row operator*() {
-        return table_[rowIndex_];
-    }
-private:
-    Table& table_;
-    int rowIndex_;
-};
-
-Table::Iterator Table::begin() {
-    return Iterator(*this, 0);
-}
-
-Table::Iterator Table::end() {
-    return Iterator(*this, rowSize_);
-}
-
 int Table::rowSize() const {
     return rowSize_;
 }

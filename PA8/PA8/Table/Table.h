@@ -19,7 +19,7 @@
 #include "Cell.h"
 #include "Col.h"
 #include "Row.h"
-#include "../LinkedList.h"
+#include "../Structures/LinkedList.h"
 
 using std::string;
 using std::to_string;
@@ -61,26 +61,6 @@ public:
      * @return Row 
      */
     Row operator[](const int& rowIndex);
-    
-    /**
-     * @brief Implements the iterator to enable iteration of each row
-     * 
-     */
-    class Iterator;
-
-    /**
-     * @brief Get the begin iterator
-     * 
-     * @return Iterator 
-     */
-    Iterator begin();
-
-    /**
-     * @brief Get the end iterator
-     * 
-     * @return Iterator 
-     */
-    Iterator end();
 
     /**
      * @brief Gets the count of rows

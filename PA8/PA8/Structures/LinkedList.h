@@ -15,16 +15,19 @@ using std::cout;
 using std::endl;
 
 template <typename T>
-class Node {
-public:
-    T data;
-    Node<T>* next;
-
-    Node(const T& data, Node<T>* next = nullptr) : data(data), next(next) {}
-};
-
-template <typename T>
 class LinkedList {
+private:
+    class Node {
+    public:
+        T data;
+        Node* next;
+
+        Node(const T& data, Node* next = nullptr) : data(data), next(next) {}
+    };
+
+    Node* head;
+    int size;
+
 public:
     LinkedList() : head(nullptr), size(0) {}
     ~LinkedList() {
@@ -56,7 +59,7 @@ public:
      * @param data 
      */
     void insertAtFront(const T& data) {
-        head = new Node<T>(data, head);
+        head = new Node(data, head);
         size++;
     };
 
@@ -69,11 +72,11 @@ public:
         if (isEmpty()) {
             insertAtFront(data);
         } else {
-            Node<T>* current = head;
+            Node* current = head;
             while (current->next != nullptr) {
                 current = current->next;
             }
-            current->next = new Node<T>(data);
+            current->next = new Node(data);
             size++;
         }
     };
@@ -89,7 +92,7 @@ public:
         if (isEmpty()) {
             return false;
         } else {
-            Node<T>* current = head;
+            Node* current = head;
 
             while (current->next != nullptr && current->next->data != data) {
                 current = current->next;
@@ -98,7 +101,7 @@ public:
             if (current->next == nullptr) {
                 return false;
             } else {
-                Node<T>* temp = current->next;
+                Node* temp = current->next;
                 current->next = current->next->next;
                 delete temp;
                 size--;
@@ -111,13 +114,13 @@ public:
      * @brief Finds an element
      * 
      * @param data 
-     * @return Node<T>* 
+     * @return Node* 
      */
-    Node<T>* find(const T& data) const {
+    Node* find(const T& data) const {
         if (isEmpty()) {
             return nullptr;
         } else {
-            Node<T>* current = head;
+            Node* current = head;
             while (current != nullptr && current->data != data) {
                 current = current->next;
             }
@@ -130,9 +133,9 @@ public:
      * 
      */
     void clear() {
-        Node<T>* current = head;
+        Node* current = head;
         while (current != nullptr) {
-            Node<T>* temp = current;
+            Node* temp = current;
             current = current->next;
             delete temp;
             size--;
@@ -148,7 +151,7 @@ public:
         if (isEmpty()) {
             cout << "Empty LinkedList." << endl;
         } else {
-            Node<T>* current = head;
+            Node* current = head;
             while (current != nullptr) {
                 cout << current->data;
                 current = current->next;
@@ -160,13 +163,9 @@ public:
     /**
      * @brief Get the head of llist
      * 
-     * @return Node<T>* 
+     * @return Node* 
      */
-    Node<T>* getHead() const {
+    Node* getHead() const {
         return head;
     };
-
-private:
-    Node<T>* head;
-    int size;
 };
